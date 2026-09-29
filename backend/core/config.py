@@ -18,7 +18,7 @@ class Settings(BaseSettings):
 
     # --- LLM Providers (Gemini or xAI / Grok) --------------------------------
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-3.7-flash"
+    gemini_model: str = "gemini-3.5-flash"
     xai_api_key: str = ""
     grok_model: str = "grok-4-fast"
     llm_provider: str = "auto"  # auto | gemini | grok

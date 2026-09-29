@@ -54,7 +54,7 @@ class GrokClient:
         self._ensure_key()
         candidate_models = [self.model]
         if self.is_gemini:
-            fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.7-flash"]
+            fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
             for f in fallbacks:
                 if f not in candidate_models:
                     candidate_models.append(f)
@@ -91,7 +91,7 @@ class GrokClient:
         self._ensure_key()
         candidate_models = [self.model]
         if self.is_gemini:
-            fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.7-flash"]
+            fallbacks = ["gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
             for f in fallbacks:
                 if f not in candidate_models:
                     candidate_models.append(f)
