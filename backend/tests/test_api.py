@@ -11,6 +11,10 @@ from backend.tests.conftest import FakeGrok
 
 @pytest.fixture()
 def client(db_session, fake_memory, monkeypatch):
+    # patch settings so missing-credential test behaves predictably
+    monkeypatch.setattr(main_mod.settings, "instagram_access_token", "")
+    monkeypatch.setattr(main_mod.settings, "instagram_user_id", "")
+
     # patch memory used across the app
     monkeypatch.setattr(main_mod.hindsight_db, "get_memory", lambda: fake_memory)
     monkeypatch.setattr(main_mod, "start_scheduler", lambda: None)
