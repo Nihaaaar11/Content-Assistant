@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import ChatInput from "@/components/ChatInput";
 import ChatWindow, { type ActivityState } from "@/components/ChatWindow";
-import Sidebar, { CreateBrandForm } from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar";
 import ConnectPanel from "@/components/ConnectPanel";
 import { listBrands, createBrand, getHealth } from "@/lib/api";
 import type { Brand, ChatTurn, Health } from "@/lib/types";
@@ -60,7 +60,15 @@ export default function Home() {
   };
 
   const sendMessage = async (message: string) => {
-    if (!activeBrand || activity !== null) return;
+    if (activity !== null) return;
+
+    let currentBrand = activeBrand;
+    if (!currentBrand) {
+      // Auto-initialize default account if no brand created yet
+      currentBrand = await createBrand("Durga Trinadh's Account", "Default social media brand");
+      await refreshBrands();
+      setActiveBrand(currentBrand);
+    }
 
     const history: ChatTurn[] = turns.map((t) => ({
       role: t.role,
@@ -74,7 +82,7 @@ export default function Home() {
     let started = false;
 
     const { streamChat } = await import("@/lib/api");
-    await streamChat(activeBrand.id, message, history, {
+    await streamChat(currentBrand.id, message, history, {
       onTool: (status) => {
         if (!started) setActivity({ label: status });
       },
@@ -100,7 +108,7 @@ export default function Home() {
     });
   };
 
-  const disabled = !activeBrand || activity !== null;
+  const disabled = activity !== null;
 
   return (
     <main className="flex h-screen overflow-hidden bg-[#090b11] text-slate-100 font-sans">
@@ -166,36 +174,19 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Main Content View */}
-        {!activeBrand ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-gemini-glow">
-            <div className="max-w-md w-full rounded-3xl border border-slate-800 bg-[#121622]/90 p-8 text-center shadow-2xl backdrop-blur-xl animate-fade-in-up">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-2xl text-white shadow-lg">
+        {/* Gemini Content View (Always active & smooth) */}
+        <ChatWindow
+          brandName={activeBrand ? activeBrand.name : ""}
+          turns={turns}
+          activity={activity}
+          onSelectSuggestion={(prompt) => void sendMessage(prompt)}
+        />
 
-                ✨
-              </div>
-              <h2 className="mb-2 text-xl font-semibold text-white">Add Your Social Media Brand</h2>
-              <p className="mb-6 text-xs text-slate-400 leading-relaxed">
-                Connect your Instagram, YouTube, TikTok or Social Media brand profile. ContentMind AI will observe your content metrics and generate data-backed growth strategies.
-              </p>
-              <CreateBrandForm onCreate={handleCreateBrand} />
-            </div>
-          </div>
-        ) : (
-          <>
-            <ChatWindow
-              brandName={activeBrand.name}
-              turns={turns}
-              activity={activity}
-              onSelectSuggestion={(prompt) => void sendMessage(prompt)}
-            />
-            <ChatInput
-              disabled={disabled}
-              onSend={sendMessage}
-              onOpenConnect={() => setShowConnect(true)}
-            />
-          </>
-        )}
+        <ChatInput
+          disabled={disabled}
+          onSend={sendMessage}
+          onOpenConnect={() => setShowConnect(true)}
+        />
       </section>
 
       {showConnect && activeBrand && (
@@ -204,5 +195,6 @@ export default function Home() {
     </main>
   );
 }
+
 
 

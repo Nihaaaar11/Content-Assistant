@@ -74,12 +74,13 @@ export default function ChatWindow({
 
             {/* Gemini Center Title */}
             <h2 className="mb-3 text-3xl md:text-4xl font-normal tracking-tight text-slate-100 font-sans">
-              What content strategy shall we build today?
+              The mic is yours, <span className="font-medium text-white">Durga Trinadh</span>
             </h2>
 
             <p className="mx-auto mb-10 max-w-xl text-sm text-slate-400 leading-relaxed font-light">
-              <span className="font-semibold text-slate-200">{brandName}</span> · ContentMind AI observes your social media accounts, remembers post metrics in Hindsight memory, and crafts data-backed growth plans.
+              {brandName ? <span className="font-medium text-slate-200">{brandName} · </span> : null}ContentMind AI observes your social media accounts, remembers post metrics in Hindsight memory, and crafts data-backed growth plans.
             </p>
+
 
             {/* Interactive Prompt Cards Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-left">
