@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ContentMind AI — Cross-Platform Social Content & Growth Agent",
+  title: "BrandPulse — AI Content Strategist",
   description:
-    "AI Content Assistant for Instagram, YouTube, TikTok & Social Media, powered by Grok 4 & Hindsight long-term memory.",
+    "Grok × Hindsight agent that observes your brand's social content and helps you plan what's next.",
 };
 
 export default function RootLayout({
@@ -12,11 +12,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-[#0b0d14] text-slate-100 antialiased selection:bg-blue-600/30 selection:text-blue-200">
+      <body className="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
         {children}
       </body>
     </html>
   );
 }
-
-

@@ -1,107 +1,13 @@
 @import "tailwindcss";
 
-@layer utilities {
-  .bg-gemini-glow {
-    background: radial-gradient(circle at 50% 45%, rgba(29, 53, 115, 0.35) 0%, rgba(15, 23, 42, 0.2) 50%, rgba(9, 11, 17, 1) 100%);
-  }
-
-  .bg-gemini-card {
-    background: rgba(20, 24, 35, 0.75);
-    backdrop-filter: blur(20px);
-  }
-
-  .border-gemini {
-    border-color: rgba(45, 55, 78, 0.6);
-  }
-}
-
-/* Gemini slim scrollbar styling */
+/* slim scrollbars for the chat window */
 .scroll-slim::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
 }
 .scroll-slim::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.4);
-  border-radius: 9999px;
-}
-.scroll-slim::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.7);
+  background: #3f3f46;
+  border-radius: 3px;
 }
 .scroll-slim::-webkit-scrollbar-track {
   background: transparent;
 }
-
-/* Moving Light Orbs Animation */
-@keyframes orbFloat1 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0.25; }
-  33% { transform: translate(60px, -40px) scale(1.2); opacity: 0.45; }
-  66% { transform: translate(-40px, 50px) scale(0.9); opacity: 0.3; }
-}
-
-@keyframes orbFloat2 {
-  0%, 100% { transform: translate(0px, 0px) scale(1); opacity: 0.2; }
-  40% { transform: translate(-70px, -50px) scale(1.3); opacity: 0.4; }
-  80% { transform: translate(50px, 30px) scale(0.95); opacity: 0.25; }
-}
-
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes floatGentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes borderGlowPulse {
-  0%, 100% { border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 0 15px rgba(59, 130, 246, 0.15); }
-  50% { border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 25px rgba(168, 85, 247, 0.25); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes shimmerText {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-orb-1 {
-  animation: orbFloat1 18s ease-in-out infinite;
-}
-
-.animate-orb-2 {
-  animation: orbFloat2 22s ease-in-out infinite;
-}
-
-.animate-spin-slow {
-  animation: spinSlow 12s linear infinite;
-}
-
-.animate-float {
-  animation: floatGentle 4s ease-in-out infinite;
-}
-
-.animate-border-glow {
-  animation: borderGlowPulse 4s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.text-shimmer {
-  background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899, #60a5fa);
-  background-size: 200% auto;
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
-  animation: shimmerText 5s linear infinite;
-}
-
-
-
-
