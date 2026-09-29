@@ -144,17 +144,20 @@ def ingest_manual_csv(brand_id: int, brand_name: str, csv_text: str) -> dict[str
     try:
         memory.ensure_bank(brand_id, brand_name)
         reader = _csv.DictReader(io.StringIO(csv_text))
-        required = {"post_id", "caption"}
-        if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+        if not reader.fieldnames or "caption" not in reader.fieldnames:
             summary["errors"].append(
-                "CSV needs at least columns: post_id, caption "
-                "(optional: platform,url,published_at,likes,comments,views,shares,saves,reach)"
+                "CSV needs at least a 'caption' column. "
+                "(optional: post_id,platform,url,published_at,likes,comments,views,shares,saves,reach)"
             )
             return summary
 
         now = datetime.now(timezone.utc)
-        for row in reader:
-            platform = (row.get("platform") or "manual").strip().lower()
+        for idx, row in enumerate(reader, start=1):
+            caption = (row.get("caption") or "").strip()
+            if not caption:
+                continue
+            post_id = (row.get("post_id") or "").strip() or f"manual_{idx}_{now.timestamp():.0f}"
+            platform = (row.get("platform") or "instagram").strip().lower()
             metrics = {
                 k: int(float(row[k]))
                 for k in ("likes", "comments", "views", "shares", "saves", "reach")
@@ -168,18 +171,18 @@ def ingest_manual_csv(brand_id: int, brand_name: str, csv_text: str) -> dict[str
                     pass
 
             db_post = repo.upsert_post(
-                db, brand_id, platform, row["post_id"].strip(),
+                db, brand_id, platform, post_id,
                 url=row.get("url") or "",
-                caption=row.get("caption") or "",
+                caption=caption,
                 published_at=published,
             )
             prev = repo.latest_snapshot(db, db_post.id)
             repo.add_snapshot(db, db_post.id, metrics)
             memory.retain_post(
                 brand_id,
-                post_id=row["post_id"].strip(),
+                post_id=post_id,
                 platform=platform,
-                caption=row.get("caption") or "",
+                caption=caption,
                 published_at=(published or now).isoformat(),
                 metrics=metrics,
                 url=row.get("url") or "",
