@@ -170,7 +170,8 @@ export default function Home() {
         {!activeBrand ? (
           <div className="flex flex-1 items-center justify-center p-6 bg-gemini-glow">
             <div className="max-w-md w-full rounded-3xl border border-slate-800 bg-[#121622]/90 p-8 text-center shadow-2xl backdrop-blur-xl animate-fade-in-up">
-              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-2xl text-white shadow-lg">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-2xl text-white shadow-lg">
+
                 ✨
               </div>
               <h2 className="mb-2 text-xl font-semibold text-white">Add Your Social Media Brand</h2>

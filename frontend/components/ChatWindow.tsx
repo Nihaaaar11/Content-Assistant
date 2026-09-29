@@ -99,7 +99,8 @@ export default function ChatWindow({
 
         {activity && (
           <div className="flex justify-start items-center gap-3 my-4 animate-fade-in-up">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-xs text-white shadow-sm">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-xs text-white shadow-sm">
+
               ✨
             </div>
             <div className="flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26] px-4 py-2.5 text-xs font-medium text-slate-300 shadow-md">

@@ -159,7 +159,7 @@ export default function Sidebar({
           </svg>
         </button>
 
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg">
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg">
           ✨
         </div>
 
@@ -201,7 +201,7 @@ export default function Sidebar({
       {/* Top Header matching Gemini screenshot */}
       <div className="flex items-center justify-between border-b border-slate-800/40 px-4 py-3.5">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-sm">
             ✨
           </div>
           <span className="text-lg font-medium tracking-tight text-white font-sans">ContentMind</span>

@@ -76,15 +76,16 @@ export default function MessageBubble({ turn }: { turn: ChatTurn }) {
   return (
     <div className="group relative flex justify-start items-start gap-3 mb-6">
       {/* Assistant AI Avatar */}
-      <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-xs text-white shadow-md shadow-rose-500/20">
+      <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-xs text-white shadow-md">
         ✨
       </div>
 
       <div className="flex flex-col gap-1 max-w-[85%]">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold text-zinc-300">InstaPulse AI</span>
-          <span className="text-[10px] text-zinc-500">Grok 4 Analyst</span>
+          <span className="text-xs font-bold text-slate-300">ContentMind AI</span>
+          <span className="text-[10px] text-slate-500">Grok 4 Analyst</span>
         </div>
+
 
         <div className="rounded-2xl rounded-tl-xs border border-zinc-800/80 bg-zinc-900/60 px-5 py-4 shadow-md backdrop-blur-xs">
           <RichText text={turn.content} />
