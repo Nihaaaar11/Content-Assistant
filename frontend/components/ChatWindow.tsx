@@ -56,14 +56,15 @@ export default function ChatWindow({
       <div className="mx-auto max-w-4xl space-y-4">
         {turns.length === 0 && !activity && (
           <div className="py-16 md:py-24 text-center animate-fade-in-up">
-            {/* Gemini Big Center Title matching screenshot */}
-            <h2 className="mb-4 text-3xl md:text-4xl font-normal tracking-tight text-slate-100 font-sans">
-              The mic is yours, <span className="font-semibold text-white">Durga Trinadh</span>
+            {/* Gemini Center Title */}
+            <h2 className="mb-3 text-3xl md:text-4xl font-normal tracking-tight text-slate-100 font-sans">
+              What content strategy shall we build today?
             </h2>
 
             <p className="mx-auto mb-10 max-w-xl text-sm text-slate-400 leading-relaxed font-light">
-              ContentMind AI observes your social media presence ({brandName}), remembers your post performance in Hindsight, and helps you craft high-converting content plans.
+              ContentMind AI observes your social media accounts ({brandName}), remembers post performance in Hindsight memory, and crafts data-backed growth plans.
             </p>
+
 
             {/* Prompt Cards Grid */}
             <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 text-left">

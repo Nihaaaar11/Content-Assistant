@@ -109,14 +109,12 @@ function StatsCards({ brandId }: { brandId: number }) {
   );
 }
 
-const RECENT_CHATS = [
-  "Generating Facebook Access Tokens G...",
-  "Generating an Instagram Access Token",
-  "Fixing Video & Reel Engagement",
-  "Deploying Applications on GitHub",
-  "Cross-Platform Content Schedule",
-  "Fixing Outdated Deployed Website Code",
-  "Interpreting Social Analytics Report",
+const QUICK_TOPICS = [
+  "Cross-Platform Growth Audit",
+  "Reel & Short Video Hooks",
+  "Multi-Platform Content Plan",
+  "Engagement & Reach Strategy",
+  "Hashtag & Caption Optimization",
 ];
 
 export default function Sidebar({
@@ -188,9 +186,8 @@ export default function Sidebar({
           ))}
         </div>
 
-        {/* User Avatar */}
-        <div className="mt-auto flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white shadow-sm">
-          D
+        <div className="mt-auto flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white shadow-sm">
+          CM
         </div>
       </aside>
     );
@@ -198,7 +195,7 @@ export default function Sidebar({
 
   return (
     <aside className="flex w-72 shrink-0 flex-col border-r border-slate-800/60 bg-[#0e1017] text-slate-200">
-      {/* Top Header matching Gemini screenshot */}
+      {/* Top Header */}
       <div className="flex items-center justify-between border-b border-slate-800/40 px-4 py-3.5">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-sm">
@@ -222,7 +219,7 @@ export default function Sidebar({
 
       {/* Main Sidebar Scroll Container */}
       <div className="scroll-slim flex-1 overflow-y-auto px-3 py-3 space-y-4">
-        {/* Gemini Pill Tabs: Chat | Spark BETA */}
+        {/* Gemini Pill Tabs */}
         <div className="flex rounded-full bg-[#181c28] p-1 text-xs">
           <button
             onClick={() => setActiveTab("chat")}
@@ -247,7 +244,7 @@ export default function Sidebar({
           </button>
         </div>
 
-        {/* Gemini "+ New Chat" Button */}
+        {/* New Chat Button */}
         <button
           onClick={onNewChat}
           className="flex w-full items-center gap-3 rounded-full bg-[#191d2a] hover:bg-[#23293b] px-4 py-2.5 text-xs font-medium text-slate-100 transition shadow-xs border border-slate-800/50 active:scale-[0.99]"
@@ -256,31 +253,30 @@ export default function Sidebar({
           <span>New chat</span>
         </button>
 
-        {/* Nav Items */}
+        {/* Feature Navigation */}
         <div className="space-y-0.5 text-xs text-slate-300">
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
-            <span>🔍</span>
-            <span>Search chats</span>
+          <button
+            onClick={onNewChat}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
+          >
+            <span>📷</span>
+            <span>Instagram Growth</span>
           </button>
 
-          <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
-            <span className="flex items-center gap-3">
-              <span>🎓</span>
-              <span>Students</span>
-            </span>
-            <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-medium text-blue-300">
-              New
-            </span>
+          <button
+            onClick={onNewChat}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
+          >
+            <span>▶️</span>
+            <span>YouTube Shorts &amp; Analytics</span>
           </button>
 
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
-            <span>🖼️</span>
-            <span>Images &amp; Visuals</span>
-          </button>
-
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
+          <button
+            onClick={onNewChat}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
+          >
             <span>🎬</span>
-            <span>Videos &amp; Reels</span>
+            <span>Reels &amp; Video Scripts</span>
           </button>
 
           <button
@@ -288,11 +284,11 @@ export default function Sidebar({
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
           >
             <span>⚙️</span>
-            <span>Connect Accounts &amp; Data</span>
+            <span>Connect Platforms &amp; Data</span>
           </button>
         </div>
 
-        {/* Section: Brands & Accounts */}
+        {/* Section: Connected Brands */}
         <div className="pt-2 border-t border-slate-800/40">
           <div className="flex items-center justify-between px-2 mb-1">
             <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
@@ -327,7 +323,7 @@ export default function Sidebar({
                 >
                   <span className="truncate">{brand.name}</span>
                   <span className="text-[10px] text-slate-500">
-                    {brand.platforms.length > 0 ? brand.platforms.join("·") : "Cross-platform"}
+                    {brand.platforms.length > 0 ? brand.platforms.join("·") : "All platforms"}
                   </span>
                 </button>
               );
@@ -339,13 +335,13 @@ export default function Sidebar({
           )}
         </div>
 
-        {/* Section: Recent Chats matching screenshot */}
+        {/* Section: Quick Strategy Topics */}
         <div className="pt-2 border-t border-slate-800/40">
           <div className="px-2 mb-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            Recent
+            Quick Strategy Topics
           </div>
           <div className="space-y-0.5">
-            {RECENT_CHATS.map((title, i) => (
+            {QUICK_TOPICS.map((title, i) => (
               <button
                 key={i}
                 onClick={onNewChat}
@@ -358,17 +354,16 @@ export default function Sidebar({
         </div>
       </div>
 
-      {/* Bottom User Profile Bar matching exact screenshot */}
+      {/* Footer User Profile Bar */}
       <div className="relative border-t border-slate-800/50 bg-[#0b0d13] px-3.5 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            {/* Green Avatar Circle matching screenshot */}
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 font-bold text-white text-xs shadow-xs">
-              D
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xs shadow-xs">
+              CM
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-xs font-semibold text-white leading-tight">Durga Trinadh Goka</span>
-              <span className="text-[10px] font-medium text-slate-400">Pro Member</span>
+              <span className="text-xs font-semibold text-white leading-tight">Content Strategist</span>
+              <span className="text-[10px] font-medium text-slate-400">Pro Account</span>
             </div>
           </div>
 
@@ -393,5 +388,6 @@ export default function Sidebar({
     </aside>
   );
 }
+
 
 
