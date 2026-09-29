@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import AnalyticsView from "@/components/AnalyticsView";
+import SparkView from "@/components/SparkView";
 import ChatInput from "@/components/ChatInput";
 import ChatWindow, { type ActivityState } from "@/components/ChatWindow";
 import Sidebar from "@/components/Sidebar";
@@ -17,6 +19,7 @@ export default function Home() {
   const [health, setHealth] = useState<Health | null>(null);
   const [showConnect, setShowConnect] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [activeTab, setActiveTab] = useState<"chat" | "analytics" | "spark">("chat");
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const refreshBrands = useCallback(async () => {
@@ -57,9 +60,11 @@ export default function Home() {
   const handleNewChat = () => {
     setTurns([]);
     setActivity(null);
+    setActiveTab("chat");
   };
 
   const sendMessage = async (message: string) => {
+    setActiveTab("chat");
     if (activity !== null) return;
 
     let currentBrand = activeBrand;
@@ -126,12 +131,15 @@ export default function Home() {
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
         onNewChat={handleNewChat}
+        activeTab={activeTab}
+        onTabChange={(tab) => setActiveTab(tab)}
+        onSelectTopic={(topic) => void sendMessage(topic)}
       />
 
       <section className="flex flex-1 flex-col overflow-hidden bg-[#090b11]">
-        {/* Gemini Header Bar matching exact screenshot */}
+        {/* Gemini Header Bar with View Navigation Tabs */}
         <header className="flex h-14 items-center justify-between border-b border-slate-800/40 bg-[#090b11] px-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {sidebarCollapsed && (
               <button
                 onClick={() => setSidebarCollapsed(false)}
@@ -152,6 +160,41 @@ export default function Home() {
                 </span>
               )}
             </div>
+
+            {/* Header View Tabs */}
+            <div className="hidden md:flex items-center gap-1 rounded-full bg-[#141824] p-1 border border-slate-800/80 text-xs ml-4">
+              <button
+                onClick={() => setActiveTab("chat")}
+                className={`rounded-full px-3 py-1 font-medium transition ${
+                  activeTab === "chat"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                💬 Strategy Chat
+              </button>
+              <button
+                onClick={() => setActiveTab("analytics")}
+                className={`rounded-full px-3 py-1 font-medium transition ${
+                  activeTab === "analytics"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                📊 Performance Analytics
+              </button>
+              <button
+                onClick={() => setActiveTab("spark")}
+                className={`rounded-full px-3 py-1 font-medium transition flex items-center gap-1 ${
+                  activeTab === "spark"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <span>✨ Spark Ideas</span>
+                <span className="rounded bg-indigo-500/30 px-1 py-0.2 text-[9px] font-bold text-indigo-300">BETA</span>
+              </button>
+            </div>
           </div>
 
           {/* Right side header matching Gemini screenshot 'Get app' button */}
@@ -161,7 +204,7 @@ export default function Home() {
               className="flex items-center gap-1.5 rounded-full bg-[#181d2a] hover:bg-[#22283a] border border-slate-800 px-3.5 py-1.5 text-xs font-medium text-slate-200 transition shadow-xs"
             >
               <span>📥</span>
-              <span>Get app</span>
+              <span>Connect Channels</span>
             </button>
 
             <button
@@ -174,19 +217,37 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Gemini Content View (Always active & smooth) */}
-        <ChatWindow
-          brandName={activeBrand ? activeBrand.name : ""}
-          turns={turns}
-          activity={activity}
-          onSelectSuggestion={(prompt) => void sendMessage(prompt)}
-        />
+        {/* View Switching Logic */}
+        {activeTab === "chat" && (
+          <>
+            <ChatWindow
+              brandName={activeBrand ? activeBrand.name : ""}
+              turns={turns}
+              activity={activity}
+              onSelectSuggestion={(prompt) => void sendMessage(prompt)}
+            />
 
-        <ChatInput
-          disabled={disabled}
-          onSend={sendMessage}
-          onOpenConnect={() => setShowConnect(true)}
-        />
+            <ChatInput
+              disabled={disabled}
+              onSend={sendMessage}
+              onOpenConnect={() => setShowConnect(true)}
+            />
+          </>
+        )}
+
+        {activeTab === "analytics" && (
+          <AnalyticsView
+            brand={activeBrand}
+            onAskAI={(prompt) => void sendMessage(prompt)}
+          />
+        )}
+
+        {activeTab === "spark" && (
+          <SparkView
+            brand={activeBrand}
+            onAskAI={(prompt) => void sendMessage(prompt)}
+          />
+        )}
       </section>
 
       {showConnect && activeBrand && (

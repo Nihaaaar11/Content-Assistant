@@ -132,6 +132,9 @@ export default function Sidebar({
   collapsed = false,
   onToggleCollapse,
   onNewChat,
+  activeTab = "chat",
+  onTabChange,
+  onSelectTopic,
 }: {
   brands: Brand[];
   activeBrand: Brand | null;
@@ -143,10 +146,12 @@ export default function Sidebar({
   collapsed?: boolean;
   onToggleCollapse?: () => void;
   onNewChat?: () => void;
+  activeTab?: "chat" | "analytics" | "spark";
+  onTabChange?: (tab: "chat" | "analytics" | "spark") => void;
+  onSelectTopic?: (topic: string) => void;
 }) {
   const [showCreate, setShowCreate] = useState(false);
   const [showHealth, setShowHealth] = useState(false);
-  const [activeTab, setActiveTab] = useState<"chat" | "spark">("chat");
 
   if (collapsed) {
     return (
@@ -161,9 +166,12 @@ export default function Sidebar({
           </svg>
         </button>
 
-        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg">
+        <button
+          onClick={() => onTabChange?.("chat")}
+          className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg"
+        >
           ✨
-        </div>
+        </button>
 
         <button
           onClick={onNewChat}
@@ -226,7 +234,7 @@ export default function Sidebar({
         {/* Gemini Pill Tabs */}
         <div className="flex rounded-full bg-[#181c28] p-1 text-xs">
           <button
-            onClick={() => setActiveTab("chat")}
+            onClick={() => onTabChange?.("chat")}
             className={`flex-1 rounded-full py-1.5 font-medium transition ${
               activeTab === "chat"
                 ? "bg-[#252b3e] text-white shadow-xs"
@@ -236,7 +244,17 @@ export default function Sidebar({
             Chat
           </button>
           <button
-            onClick={() => setActiveTab("spark")}
+            onClick={() => onTabChange?.("analytics")}
+            className={`flex-1 rounded-full py-1.5 font-medium transition ${
+              activeTab === "analytics"
+                ? "bg-[#252b3e] text-white shadow-xs"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            Analytics
+          </button>
+          <button
+            onClick={() => onTabChange?.("spark")}
             className={`flex-1 rounded-full py-1.5 font-medium transition flex items-center justify-center gap-1 ${
               activeTab === "spark"
                 ? "bg-[#252b3e] text-white shadow-xs"
@@ -250,7 +268,10 @@ export default function Sidebar({
 
         {/* New Chat Button */}
         <button
-          onClick={onNewChat}
+          onClick={() => {
+            onTabChange?.("chat");
+            onNewChat?.();
+          }}
           className="flex w-full items-center gap-3 rounded-full bg-[#191d2a] hover:bg-[#23293b] px-4 py-2.5 text-xs font-medium text-slate-100 transition shadow-xs border border-slate-800/50 active:scale-[0.99]"
         >
           <span className="text-sm">✏️</span>
@@ -260,7 +281,9 @@ export default function Sidebar({
         {/* Feature Navigation */}
         <div className="space-y-0.5 text-xs text-slate-300">
           <button
-            onClick={onNewChat}
+            onClick={() =>
+              onSelectTopic?.("Analyze Instagram growth metrics, top performing reels, and audience engagement strategies.")
+            }
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
           >
             <span>📷</span>
@@ -268,7 +291,7 @@ export default function Sidebar({
           </button>
 
           <button
-            onClick={onNewChat}
+            onClick={() => onTabChange?.("analytics")}
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
           >
             <span>▶️</span>
@@ -276,7 +299,9 @@ export default function Sidebar({
           </button>
 
           <button
-            onClick={onNewChat}
+            onClick={() =>
+              onSelectTopic?.("Generate 3 high-converting 30-second Reel script hooks with visual notes.")
+            }
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
           >
             <span>🎬</span>
@@ -348,7 +373,7 @@ export default function Sidebar({
             {QUICK_TOPICS.map((title, i) => (
               <button
                 key={i}
-                onClick={onNewChat}
+                onClick={() => onSelectTopic?.(title)}
                 className="w-full truncate rounded-lg px-3 py-1.5 text-left text-xs text-slate-400 hover:bg-[#181c28] hover:text-slate-200 transition"
               >
                 {title}
