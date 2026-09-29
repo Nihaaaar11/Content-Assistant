@@ -24,7 +24,7 @@ class GrokClient:
         if use_gemini:
             key = api_key or gem_key
             url = "https://generativelanguage.googleapis.com/v1beta/openai/"
-            mod = model or settings.gemini_model or "gemini-3.6-flash"
+            mod = model or settings.gemini_model or "gemini-3.5-flash"
         else:
             key = api_key or settings.xai_api_key or os.environ.get("XAI_API_KEY", "")
             url = "https://api.x.ai/v1"
