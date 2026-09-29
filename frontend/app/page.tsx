@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import AnalyticsView from "@/components/AnalyticsView";
+import SparkView from "@/components/SparkView";
 import ChatInput from "@/components/ChatInput";
 import ChatWindow, { type ActivityState } from "@/components/ChatWindow";
 import Sidebar, { CreateBrandForm } from "@/components/Sidebar";
