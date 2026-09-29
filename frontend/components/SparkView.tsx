@@ -50,7 +50,7 @@ export default function SparkView({
   brand,
   onAskAI,
 }: {
-  brand: Brand | null;
+  brand?: Brand | null;
   onAskAI: (prompt: string) => void;
 }) {
   return (

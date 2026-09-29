@@ -4,7 +4,8 @@ export interface Brand {
   id: number;
   name: string;
   description: string;
-  platforms: string[];
+  platforms?: string[];
+  created_at?: string;
 }
 
 export interface PostMetrics {
@@ -45,6 +46,7 @@ export interface Health {
   status: string;
   hindsight: boolean;
   grok_configured: boolean;
+  gemini_configured?: boolean;
   scheduler: boolean;
 }
 

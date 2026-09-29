@@ -85,12 +85,12 @@ function ConnectTab({
       <YouTubeForm
         brand={brand}
         setNotice={setNotice}
-        alreadyConnected={brand.platforms.includes("youtube")}
+        alreadyConnected={(brand.platforms || []).includes("youtube")}
       />
       <InstagramForm
         brand={brand}
         setNotice={setNotice}
-        alreadyConnected={brand.platforms.includes("instagram")}
+        alreadyConnected={(brand.platforms || []).includes("instagram")}
       />
     </div>
   );
