@@ -95,9 +95,18 @@ def upsert_post(
     return post
 
 
-def add_snapshot(session: Session, post_id: int, metrics: dict[str, Any]) -> MetricSnapshot:
+def add_snapshot(
+    session: Session, post_id: int, metrics: dict[str, Any], collected_at: datetime | None = None
+) -> MetricSnapshot:
+    ts = collected_at or datetime.now(timezone.utc)
+    # Check for microsecond collision on unique (post_id, collected_at)
+    existing = session.query(MetricSnapshot).filter_by(post_id=post_id, collected_at=ts).first()
+    if existing:
+        ts = ts + timedelta(milliseconds=1)
+
     snap = MetricSnapshot(
         post_id=post_id,
+        collected_at=ts,
         likes=int(metrics.get("likes") or 0),
         comments=int(metrics.get("comments") or 0),
         views=int(metrics.get("views") or 0),

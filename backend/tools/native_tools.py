@@ -18,10 +18,10 @@ def _session() -> Session:
 
 
 @tool("recall_memory")
-async def recall_memory(query: str, types: list[str] | None = None, ctx: dict | None = None) -> Any:
+async def recall_memory(query: str = "", types: list[str] | None = None, ctx: dict | None = None) -> Any:
     """Search the brand memory bank."""
     brand_id = _brand_id(ctx)
-    results = hindsight_db.get_memory().recall(brand_id, query, types=types)
+    results = hindsight_db.get_memory().recall(brand_id, query or "brand posts and strategy", types=types)
     if not results:
         return {"note": "No memories matched. The bank may still be collecting data."}
     return [
@@ -36,7 +36,7 @@ async def recall_memory(query: str, types: list[str] | None = None, ctx: dict | 
 
 
 @tool("save_memory")
-async def save_memory(content: str, context: str = "decision", ctx: dict | None = None) -> Any:
+async def save_memory(content: str = "", context: str = "decision", ctx: dict | None = None) -> Any:
     """Store a durable conclusion in the brand bank."""
     brand_id = _brand_id(ctx)
     hindsight_db.get_memory().retain_analysis(
@@ -79,10 +79,10 @@ async def list_recent_posts(
 
 
 @tool("deep_reflection")
-async def deep_reflection(query: str, ctx: dict | None = None) -> Any:
+async def deep_reflection(query: str = "", ctx: dict | None = None) -> Any:
     """Hindsight's agentic reasoning across the whole memory bank."""
     brand_id = _brand_id(ctx)
-    answer = hindsight_db.get_memory().reflect(brand_id, query)
+    answer = hindsight_db.get_memory().reflect(brand_id, query or "brand strategy")
     return {"answer": answer or "Reflection returned nothing (bank may be empty or busy)."}
 
 

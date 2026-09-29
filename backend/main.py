@@ -68,6 +68,7 @@ def health() -> schemas.HealthOut:
         status="ok" if hindsight_ok else "degraded",
         hindsight=hindsight_ok,
         grok_configured=settings.has_xai(),
+        gemini_configured=settings.has_gemini(),
         scheduler=app.state.scheduler is not None,
     )
 
@@ -239,11 +240,10 @@ async def chat(payload: schemas.ChatRequest) -> StreamingResponse:
                 payload.brand_id, brand_name, payload.message, history
             ):
                 yield sse(event["event"], event["data"])
-        except RuntimeError as exc:  # missing API key etc.
-            yield sse("error", {"message": str(exc)})
-        except Exception:
+        except Exception as exc:
             logger.exception("chat failed")
-            yield sse("error", {"message": "Something went wrong inside the agent loop."})
+            msg = str(exc) if str(exc) else "Something went wrong inside the agent loop."
+            yield sse("error", {"message": msg})
 
     return StreamingResponse(
         event_stream(),
