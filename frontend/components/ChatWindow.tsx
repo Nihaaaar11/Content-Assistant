@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import { LiquidGlassCard } from "./ui/LiquidGlassCard";
 import MessageBubble from "./MessageBubble";
 import type { ChatTurn } from "@/lib/types";
 
@@ -81,39 +82,40 @@ export default function ChatWindow({
               {brandName ? <span className="font-medium text-slate-200">{brandName} · </span> : null}ContentMind AI observes your social media accounts, remembers post metrics in Hindsight memory, and crafts data-backed growth plans.
             </p>
 
-
-            {/* Interactive Prompt Cards Grid */}
+            {/* Interactive Liquid Glass Prompt Cards Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-left">
               {SUGGESTIONS.map((s, idx) => (
                 <button
                   key={s.title}
                   onClick={() => onSelectSuggestion?.(s.prompt)}
                   style={{ animationDelay: `${idx * 80}ms` }}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-[#121622]/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-[#181e2e] hover:shadow-2xl hover:shadow-blue-500/15 active:scale-[0.99]"
+                  className="w-full text-left"
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-xl text-blue-400 transition-transform duration-300 group-hover:scale-110">
-                      {s.icon}
+                  <LiquidGlassCard className="h-full flex flex-col justify-between cursor-pointer">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-xl text-blue-400 transition-transform duration-300 group-hover:scale-110">
+                        {s.icon}
+                      </div>
+                      <span className="rounded-full bg-slate-800/80 px-2.5 py-0.5 text-[10px] font-medium text-slate-400 group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors">
+                        {s.tag}
+                      </span>
                     </div>
-                    <span className="rounded-full bg-slate-800/80 px-2.5 py-0.5 text-[10px] font-medium text-slate-400 group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors">
-                      {s.tag}
-                    </span>
-                  </div>
 
-                  <div>
-                    <h3 className="text-sm font-semibold text-slate-200 group-hover:text-blue-300 transition-colors">
-                      {s.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-slate-400 leading-relaxed font-light">
-                      {s.sub}
-                    </p>
-                  </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-slate-200 group-hover:text-blue-300 transition-colors">
+                        {s.title}
+                      </h3>
+                      <p className="mt-1 text-xs text-slate-400 leading-relaxed font-light">
+                        {s.sub}
+                      </p>
+                    </div>
 
-                  <div className="mt-3 flex items-center justify-end">
-                    <span className="text-[11px] font-medium text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                      Ask ContentMind ↗
-                    </span>
-                  </div>
+                    <div className="mt-4 flex items-center justify-end">
+                      <span className="text-[11px] font-medium text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Ask ContentMind ↗
+                      </span>
+                    </div>
+                  </LiquidGlassCard>
                 </button>
               ))}
             </div>
@@ -130,14 +132,16 @@ export default function ChatWindow({
               <span>✨</span>
               <span className="absolute -inset-0.5 rounded-lg border border-blue-400/40 animate-ping opacity-30" />
             </div>
-            <div className="flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26] px-4.5 py-2.5 text-xs font-medium text-slate-300 shadow-xl backdrop-blur-md">
-              <span className="flex gap-1.5">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:0ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-400 [animation-delay:150ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-purple-400 [animation-delay:300ms]" />
-              </span>
-              <span className="text-slate-300">{activity.label}</span>
-            </div>
+            <LiquidGlassCard glassSize="sm" className="py-2 px-4 rounded-full">
+              <div className="flex items-center gap-3 text-xs font-medium text-slate-300">
+                <span className="flex gap-1.5">
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:0ms]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-400 [animation-delay:150ms]" />
+                  <span className="h-2 w-2 animate-bounce rounded-full bg-purple-400 [animation-delay:300ms]" />
+                </span>
+                <span>{activity.label}</span>
+              </div>
+            </LiquidGlassCard>
           </div>
         )}
         <div ref={bottomRef} />
@@ -145,6 +149,7 @@ export default function ChatWindow({
     </div>
   );
 }
+
 
 
 

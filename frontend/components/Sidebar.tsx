@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { LiquidGlassCard } from "./ui/LiquidGlassCard";
 import { getStats } from "@/lib/api";
 import type { Brand, Health, Stats } from "@/lib/types";
 
@@ -81,33 +82,36 @@ function StatsCards({ brandId }: { brandId: number }) {
         : `${n}`;
 
   return (
-    <div className="mt-3 rounded-xl border border-slate-800/80 bg-[#121622]/80 p-3 backdrop-blur-xs">
-      <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-        Cross-Platform Insights
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-          <div className="text-[10px] uppercase font-medium text-slate-400">Audience</div>
-          <div className="text-sm font-bold text-white">
-            {stats.followers !== null ? fmt(stats.followers) : "—"}
+    <div className="mt-3">
+      <LiquidGlassCard glassSize="sm">
+        <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+          Cross-Platform Insights
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+            <div className="text-[10px] uppercase font-medium text-slate-400">Audience</div>
+            <div className="text-sm font-bold text-white">
+              {stats.followers !== null ? fmt(stats.followers) : "—"}
+            </div>
+          </div>
+          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+            <div className="text-[10px] uppercase font-medium text-slate-400">Total Posts</div>
+            <div className="text-sm font-bold text-white">{fmt(stats.post_count)}</div>
+          </div>
+          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+            <div className="text-[10px] uppercase font-medium text-slate-400">Likes</div>
+            <div className="text-sm font-bold text-blue-400">{fmt(stats.total_likes)}</div>
+          </div>
+          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+            <div className="text-[10px] uppercase font-medium text-slate-400">Views &amp; Reach</div>
+            <div className="text-sm font-bold text-purple-400">{fmt(stats.total_views)}</div>
           </div>
         </div>
-        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-          <div className="text-[10px] uppercase font-medium text-slate-400">Total Posts</div>
-          <div className="text-sm font-bold text-white">{fmt(stats.post_count)}</div>
-        </div>
-        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-          <div className="text-[10px] uppercase font-medium text-slate-400">Likes</div>
-          <div className="text-sm font-bold text-blue-400">{fmt(stats.total_likes)}</div>
-        </div>
-        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-          <div className="text-[10px] uppercase font-medium text-slate-400">Views &amp; Reach</div>
-          <div className="text-sm font-bold text-purple-400">{fmt(stats.total_views)}</div>
-        </div>
-      </div>
+      </LiquidGlassCard>
     </div>
   );
 }
+
 
 const QUICK_TOPICS = [
   "Cross-Platform Growth Audit",

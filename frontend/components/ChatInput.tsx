@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { LiquidGlassCard } from "@/components/ui/LiquidGlassCard";
 
 export default function ChatInput({
   disabled,
@@ -29,25 +30,30 @@ export default function ChatInput({
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
     e.target.style.height = "auto";
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 160)}px`;
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 180)}px`;
   };
 
   return (
-    <div className="bg-[#0e1017]/90 px-4 py-4 md:px-8 border-t border-slate-800/40">
-      <div className="mx-auto max-w-3xl relative">
-        {/* Gemini Pill Floating Container matching screenshot */}
-        <div className="relative flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26]/90 px-4.5 py-2.5 shadow-2xl backdrop-blur-xl transition-all duration-300 focus-within:border-blue-500/60 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:shadow-[0_0_25px_rgba(59,130,246,0.25)]">
+    <div className="bg-[#0b0d14]/90 px-4 py-5 md:px-8 border-t border-slate-800/40 relative z-30">
+      <div className="mx-auto max-w-4xl relative group">
+        {/* Ambient liquid glow behind input bar */}
+        <div className="absolute -inset-1 rounded-[36px] bg-linear-to-r from-blue-600/30 via-indigo-500/20 to-purple-600/30 blur-xl opacity-60 transition-all duration-500 group-focus-within:opacity-100 group-focus-within:blur-2xl" />
 
-          {/* Plus icon on left matching screenshot */}
+        {/* Liquid Glass Card Bar */}
+        <LiquidGlassCard
+          glassSize="none"
+          className="relative flex items-center gap-3.5 rounded-full border border-slate-700/60 bg-[#121624]/90 px-6 py-3.5 md:py-4 shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl transition-all duration-300 focus-within:border-blue-400/80 focus-within:ring-4 focus-within:ring-blue-500/20 hover:border-slate-500/80"
+        >
+          {/* Plus icon on left */}
           <button
             onClick={onOpenConnect}
-            title="Connect Accounts or Upload Data"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition text-lg"
+            title="Connect Accounts or Upload Brand Assets"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-800/70 text-slate-300 hover:bg-blue-500/20 hover:text-blue-300 hover:scale-105 active:scale-95 transition-all text-xl font-light shadow-sm"
           >
             +
           </button>
 
-          {/* Text Area */}
+          {/* Large Main Textarea */}
           <textarea
             ref={textareaRef}
             value={value}
@@ -61,67 +67,93 @@ export default function ChatInput({
             rows={1}
             placeholder={
               disabled
-                ? "Add or select a brand to start..."
-                : "Ask ContentMind"
+                ? "Add or select a brand strategy to start..."
+                : "Ask ContentMind to generate posts, script reels, or analyze growth..."
             }
             disabled={disabled}
-            className="scroll-slim max-h-36 flex-1 resize-none bg-transparent py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none disabled:opacity-50 font-sans"
+            className="scroll-slim max-h-44 flex-1 resize-none bg-transparent py-2 text-base md:text-lg text-slate-100 placeholder:text-slate-400/80 focus:outline-none disabled:opacity-50 font-sans tracking-wide leading-relaxed"
           />
 
-          {/* Model Selector dropdown matching screenshot ('Flash ∨') */}
-          <div className="relative shrink-0">
+          {/* Model Selector & Actions */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Model Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setShowModelMenu((v) => !v)}
+                className="flex items-center gap-2 rounded-full border border-slate-700/60 bg-[#1c2236]/90 hover:bg-[#252d47] px-4 py-2 text-xs md:text-sm font-medium text-slate-200 transition-all shadow-inner hover:border-blue-400/40"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  {model}
+                </span>
+                <span className="text-[10px] text-slate-400">▼</span>
+              </button>
+
+              {showModelMenu && (
+                <div className="absolute right-0 bottom-full mb-3 w-52 rounded-2xl border border-slate-700/80 bg-[#141826] p-2 shadow-2xl backdrop-blur-2xl text-xs md:text-sm z-50 animate-fade-in-up">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
+                    Select AI Engine
+                  </div>
+                  <button
+                    onClick={() => {
+                      setModel("Grok 4 Fast");
+                      setShowModelMenu(false);
+                    }}
+                    className={`w-full rounded-xl px-3 py-2.5 text-left transition flex items-center justify-between ${
+                      model === "Grok 4 Fast"
+                        ? "bg-blue-600/20 text-blue-300 font-medium"
+                        : "text-slate-200 hover:bg-slate-800/80"
+                    }`}
+                  >
+                    <span>⚡ Grok 4 Fast</span>
+                    {model === "Grok 4 Fast" && <span className="text-xs">✓</span>}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setModel("Grok 4 Deep");
+                      setShowModelMenu(false);
+                    }}
+                    className={`w-full rounded-xl px-3 py-2.5 text-left transition flex items-center justify-between ${
+                      model === "Grok 4 Deep"
+                        ? "bg-purple-600/20 text-purple-300 font-medium"
+                        : "text-slate-200 hover:bg-slate-800/80"
+                    }`}
+                  >
+                    <span>🧠 Grok 4 Reasoning</span>
+                    {model === "Grok 4 Deep" && <span className="text-xs">✓</span>}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Mic Icon */}
             <button
-              onClick={() => setShowModelMenu((v) => !v)}
-              className="flex items-center gap-1.5 rounded-full bg-[#1e2333] hover:bg-[#272e42] px-3 py-1.5 text-xs font-medium text-slate-300 transition"
+              title="Voice Input Mode"
+              onClick={() => void submit()}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-800/70 text-slate-300 hover:bg-slate-700 hover:text-white hover:scale-105 active:scale-95 transition-all text-lg shadow-sm"
             >
-              <span>{model}</span>
-              <span className="text-[10px] text-slate-500">▼</span>
+              🎙️
             </button>
 
-            {showModelMenu && (
-              <div className="absolute right-0 bottom-full mb-2 w-44 rounded-xl border border-slate-800 bg-[#161a26] p-1.5 shadow-xl text-xs z-50">
-                <button
-                  onClick={() => { setModel("Grok 4 Fast"); setShowModelMenu(false); }}
-                  className="w-full rounded-lg px-3 py-2 text-left text-slate-200 hover:bg-slate-800 transition"
-                >
-                  ⚡ Grok 4 Fast
-                </button>
-                <button
-                  onClick={() => { setModel("Grok 4 Deep"); setShowModelMenu(false); }}
-                  className="w-full rounded-lg px-3 py-2 text-left text-slate-200 hover:bg-slate-800 transition"
-                >
-                  🧠 Grok 4 Reasoning
-                </button>
-              </div>
-            )}
+            {/* Send Button */}
+            <button
+              onClick={() => void submit()}
+              disabled={disabled || !value.trim()}
+              title="Send prompt"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-linear-to-tr from-blue-600 via-indigo-600 to-purple-600 text-white font-bold transition-all duration-200 hover:scale-105 hover:shadow-[0_0_22px_rgba(79,70,229,0.5)] active:scale-95 disabled:opacity-30 disabled:hover:scale-100 disabled:shadow-none text-lg"
+            >
+              ↗
+            </button>
           </div>
+        </LiquidGlassCard>
 
-          {/* Mic icon matching screenshot */}
-          <button
-            title="Voice input simulation"
-            onClick={() => void submit()}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition"
-          >
-            🎙️
-          </button>
-
-          {/* Send Icon */}
-          <button
-            onClick={() => void submit()}
-            disabled={disabled || !value.trim()}
-            title="Send message"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-500 disabled:opacity-30 disabled:hover:bg-blue-600"
-          >
-            ↗
-          </button>
-        </div>
-
-        <p className="mt-2.5 text-center text-[11px] text-slate-500">
-          ContentMind AI powered by Grok 4 &amp; Hindsight long-term memory server.
+        <p className="mt-2.5 text-center text-[11px] text-slate-400 font-medium tracking-wide">
+          ContentMind AI powered by Grok 4 &amp; Hindsight long-term memory engine.
         </p>
       </div>
     </div>
   );
 }
+
 
 

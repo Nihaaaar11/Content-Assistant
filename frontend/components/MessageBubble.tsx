@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { LiquidGlassCard } from "./ui/LiquidGlassCard";
 import type { ChatTurn } from "@/lib/types";
+
 
 /** Renders text with clean markdown formatting: **bold**, bullets, and # headings. */
 function RichText({ text }: { text: string }) {
@@ -29,7 +31,7 @@ function RichText({ text }: { text: string }) {
               isHeading
                 ? "mt-3 text-base font-bold text-white tracking-tight"
                 : isBullet
-                  ? "relative pl-5 text-sm leading-relaxed text-zinc-200 before:absolute before:left-1 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-rose-400"
+                  ? "relative pl-5 text-sm leading-relaxed text-zinc-200 before:absolute before:left-1 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-blue-400"
                   : "text-sm leading-relaxed text-zinc-200"
             }
           >
@@ -66,7 +68,7 @@ export default function MessageBubble({ turn }: { turn: ChatTurn }) {
   if (isUser) {
     return (
       <div className="flex justify-end mb-4">
-        <div className="max-w-[80%] rounded-2xl rounded-tr-xs bg-zinc-800/90 border border-zinc-700/60 px-4 py-3 text-sm text-white shadow-sm">
+        <div className="max-w-[80%] rounded-2xl rounded-tr-xs bg-slate-800/90 border border-slate-700/60 px-4 py-3 text-sm text-white shadow-sm">
           <p className="whitespace-pre-wrap leading-relaxed">{turn.content}</p>
         </div>
       </div>
@@ -86,21 +88,21 @@ export default function MessageBubble({ turn }: { turn: ChatTurn }) {
           <span className="text-[10px] text-slate-500">Grok 4 Analyst</span>
         </div>
 
-
-        <div className="rounded-2xl rounded-tl-xs border border-zinc-800/80 bg-zinc-900/60 px-5 py-4 shadow-md backdrop-blur-xs">
+        <LiquidGlassCard className="rounded-2xl rounded-tl-xs px-5 py-4">
           <RichText text={turn.content} />
 
-          <div className="mt-3 flex items-center gap-2 border-t border-zinc-800/50 pt-2 text-[11px] text-zinc-500">
+          <div className="mt-3 flex items-center gap-2 border-t border-slate-800/60 pt-2 text-[11px] text-slate-400">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 rounded-md px-2 py-1 transition hover:bg-zinc-800 hover:text-zinc-300"
+              className="flex items-center gap-1 rounded-md px-2 py-1 transition hover:bg-slate-800 hover:text-slate-200"
             >
               {copied ? "✓ Copied" : "📋 Copy"}
             </button>
           </div>
-        </div>
+        </LiquidGlassCard>
       </div>
     </div>
   );
 }
+
 
