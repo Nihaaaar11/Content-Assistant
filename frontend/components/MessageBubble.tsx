@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import type { ChatTurn } from "@/lib/types";
 
-/** Renders text with minimal markdown: **bold**, bullets, and # headings. */
+/** Renders text with clean markdown formatting: **bold**, bullets, and # headings. */
 function RichText({ text }: { text: string }) {
   const lines = text.split("\n");
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2 text-zinc-100">
       {lines.map((line, i) => {
         const isBullet = /^\s*[-•*]\s+/.test(line);
         const isHeading = /^#{1,3}\s+/.test(line);
@@ -15,16 +16,21 @@ function RichText({ text }: { text: string }) {
           : isHeading
             ? line.replace(/^#{1,3}\s+/, "")
             : line;
+
+        if (!raw.trim()) {
+          return <div key={i} className="h-2" />;
+        }
+
         const parts = raw.split(/(\*\*[^*]+\*\*)/g);
         return (
-          <p
+          <div
             key={i}
             className={
               isHeading
-                ? "mt-2 text-sm font-semibold text-white"
+                ? "mt-3 text-base font-bold text-white tracking-tight"
                 : isBullet
-                  ? "relative pl-4 text-sm leading-relaxed before:absolute before:left-0 before:text-zinc-500 before:content-['•']"
-                  : "text-sm leading-relaxed"
+                  ? "relative pl-5 text-sm leading-relaxed text-zinc-200 before:absolute before:left-1 before:top-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-rose-400"
+                  : "text-sm leading-relaxed text-zinc-200"
             }
           >
             {parts.map((part, j) =>
@@ -36,7 +42,7 @@ function RichText({ text }: { text: string }) {
                 <span key={j}>{part}</span>
               )
             )}
-          </p>
+          </div>
         );
       })}
     </div>
@@ -45,21 +51,55 @@ function RichText({ text }: { text: string }) {
 
 export default function MessageBubble({ turn }: { turn: ChatTurn }) {
   const isUser = turn.role === "user";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(turn.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore copy error */
+    }
+  };
+
+  if (isUser) {
+    return (
+      <div className="flex justify-end mb-4">
+        <div className="max-w-[80%] rounded-2xl rounded-tr-xs bg-zinc-800/90 border border-zinc-700/60 px-4 py-3 text-sm text-white shadow-sm">
+          <p className="whitespace-pre-wrap leading-relaxed">{turn.content}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div
-        className={
-          isUser
-            ? "max-w-[80%] rounded-2xl rounded-br-sm bg-sky-600 px-4 py-2.5 text-sm text-white"
-            : "max-w-[85%] rounded-2xl rounded-bl-sm bg-zinc-800/80 px-4 py-3 text-zinc-100"
-        }
-      >
-        {isUser ? (
-          <p className="whitespace-pre-wrap">{turn.content}</p>
-        ) : (
+    <div className="group relative flex justify-start items-start gap-3 mb-6">
+      {/* Assistant AI Avatar */}
+      <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-xs text-white shadow-md shadow-rose-500/20">
+        ✨
+      </div>
+
+      <div className="flex flex-col gap-1 max-w-[85%]">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-zinc-300">InstaPulse AI</span>
+          <span className="text-[10px] text-zinc-500">Grok 4 Analyst</span>
+        </div>
+
+        <div className="rounded-2xl rounded-tl-xs border border-zinc-800/80 bg-zinc-900/60 px-5 py-4 shadow-md backdrop-blur-xs">
           <RichText text={turn.content} />
-        )}
+
+          <div className="mt-3 flex items-center gap-2 border-t border-zinc-800/50 pt-2 text-[11px] text-zinc-500">
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1 rounded-md px-2 py-1 transition hover:bg-zinc-800 hover:text-zinc-300"
+            >
+              {copied ? "✓ Copied" : "📋 Copy"}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+

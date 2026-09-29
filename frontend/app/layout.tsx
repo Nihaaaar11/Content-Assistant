@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BrandPulse — AI Content Strategist",
+  title: "InstaPulse AI — Instagram Professional Account & Content Assistant",
   description:
-    "Grok × Hindsight agent that observes your brand's social content and helps you plan what's next.",
+    "AI Growth & Content Strategy Agent for Instagram Professional accounts, powered by Grok & Hindsight memory.",
 };
 
 export default function RootLayout({
@@ -12,9 +12,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-zinc-950 text-zinc-100 antialiased">
+      <body className="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-rose-500/30 selection:text-rose-200">
         {children}
       </body>
     </html>
   );
 }
+
