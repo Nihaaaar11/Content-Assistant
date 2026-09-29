@@ -36,7 +36,8 @@ export default function ChatInput({
     <div className="bg-[#0e1017]/90 px-4 py-4 md:px-8 border-t border-slate-800/40">
       <div className="mx-auto max-w-3xl relative">
         {/* Gemini Pill Floating Container matching screenshot */}
-        <div className="relative flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26] px-4 py-2 shadow-2xl transition-all focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20">
+        <div className="relative flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26]/90 px-4.5 py-2.5 shadow-2xl backdrop-blur-xl transition-all duration-300 focus-within:border-blue-500/60 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:shadow-[0_0_25px_rgba(59,130,246,0.25)]">
+
           {/* Plus icon on left matching screenshot */}
           <button
             onClick={onOpenConnect}
