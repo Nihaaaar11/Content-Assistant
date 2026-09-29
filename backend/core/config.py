@@ -16,9 +16,12 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- xAI / Grok ---------------------------------------------------------
+    # --- LLM Providers (Gemini or xAI / Grok) --------------------------------
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-3.7-flash"
     xai_api_key: str = ""
     grok_model: str = "grok-4-fast"
+    llm_provider: str = "auto"  # auto | gemini | grok
 
     # --- Hindsight ----------------------------------------------------------
     hindsight_url: str = "http://localhost:8888"
@@ -62,8 +65,14 @@ class Settings(BaseSettings):
             return p
         raise ValueError("Only sqlite:// DATABASE_URL is supported in v1")
 
+    def has_gemini(self) -> bool:
+        return bool(self.gemini_api_key.strip())
+
     def has_xai(self) -> bool:
         return bool(self.xai_api_key.strip())
+
+    def has_llm(self) -> bool:
+        return self.has_gemini() or self.has_xai()
 
     def has_youtube_oauth(self) -> bool:
         return bool(self.youtube_client_id and self.youtube_client_secret)
@@ -75,9 +84,13 @@ class Settings(BaseSettings):
         return bool(self.instagram_access_token.strip() and self.instagram_user_id.strip())
 
 
-@lru_cache
 def get_settings() -> Settings:
     return Settings()
 
 
-settings = get_settings()
+class _SettingsProxy:
+    def __getattr__(self, name: str):
+        return getattr(get_settings(), name)
+
+
+settings = _SettingsProxy()  # type: ignore

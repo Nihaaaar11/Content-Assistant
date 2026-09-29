@@ -76,4 +76,5 @@ class HealthOut(BaseModel):
     status: str
     hindsight: bool
     grok_configured: bool
+    gemini_configured: bool = False
     scheduler: bool = False

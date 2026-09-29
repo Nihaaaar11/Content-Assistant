@@ -92,41 +92,47 @@ class HindsightMemory:
             )
         lines.append(f"CAPTION: {caption or '(no caption)'}")
 
-        self._client.retain(
-            bank_id=bank_id_for(brand_id),
-            items=[
-                {
-                    "content": "\n".join(lines),
-                    "context": CTX_POST,
-                    "timestamp": published_at,
-                    "document_id": f"{platform}-{post_id}",
-                    "metadata": {
-                        "platform": platform,
-                        "post_id": post_id,
-                        **({"url": url} if url else {}),
-                    },
-                }
-            ],
-            **RETAIN_KWARGS,
-        )
+        try:
+            self._client.retain(
+                bank_id=bank_id_for(brand_id),
+                items=[
+                    {
+                        "content": "\n".join(lines),
+                        "context": CTX_POST,
+                        "timestamp": published_at,
+                        "document_id": f"{platform}-{post_id}",
+                        "metadata": {
+                            "platform": platform,
+                            "post_id": post_id,
+                            **({"url": url} if url else {}),
+                        },
+                    }
+                ],
+                **RETAIN_KWARGS,
+            )
+        except Exception as exc:
+            logger.debug("retain_post failed for bank %s: %s", brand_id, exc)
 
     def retain_analysis(
         self, brand_id: int, report: str, analysis_date: str, kind: str = "cycle"
     ) -> None:
         """Store a performance report (cycle report or daily digest)."""
-        self._client.retain(
-            bank_id=bank_id_for(brand_id),
-            items=[
-                {
-                    "content": report,
-                    "context": CTX_ANALYSIS,
-                    "timestamp": analysis_date,
-                    "document_id": f"analysis-{kind}-{analysis_date[:10]}",
-                    "metadata": {"kind": kind, "date": analysis_date[:10]},
-                }
-            ],
-            **RETAIN_KWARGS,
-        )
+        try:
+            self._client.retain(
+                bank_id=bank_id_for(brand_id),
+                items=[
+                    {
+                        "content": report,
+                        "context": CTX_ANALYSIS,
+                        "timestamp": analysis_date,
+                        "document_id": f"analysis-{kind}-{analysis_date[:10]}",
+                        "metadata": {"kind": kind, "date": analysis_date[:10]},
+                    }
+                ],
+                **RETAIN_KWARGS,
+            )
+        except Exception as exc:
+            logger.debug("retain_analysis failed for bank %s: %s", brand_id, exc)
 
     def retain_chat_turn(
         self, brand_id: int, user_message: str, assistant_reply: str, turn_date: str
@@ -136,21 +142,72 @@ class HindsightMemory:
             f"USER (strategy chat): {user_message}\n"
             f"BRANDPULSE (analyst): {assistant_reply}"
         )
-        self._client.retain(
-            bank_id=bank_id_for(brand_id),
-            items=[
-                {
-                    "content": content,
-                    "context": CTX_CHAT,
-                    "timestamp": turn_date,
-                    "document_id": f"chat-{turn_date}",
-                    "metadata": {"kind": "strategy-chat"},
-                }
-            ],
-            **RETAIN_KWARGS,
-        )
+        try:
+            self._client.retain(
+                bank_id=bank_id_for(brand_id),
+                items=[
+                    {
+                        "content": content,
+                        "context": CTX_CHAT,
+                        "timestamp": turn_date,
+                        "document_id": f"chat-{turn_date}",
+                        "metadata": {"kind": "strategy-chat"},
+                    }
+                ],
+                **RETAIN_KWARGS,
+            )
+        except Exception as exc:
+            logger.debug("retain_chat_turn failed for bank %s: %s", brand_id, exc)
 
-    # ---- recall / reflect --------------------------------------------------
+    async def arecall(
+        self,
+        brand_id: int,
+        query: str,
+        types: list[str] | None = None,
+        budget: str = "mid",
+        max_results: int = 20,
+    ) -> list[dict[str, Any]]:
+        """Async multi-strategy memory search; returns normalized dicts."""
+        kwargs: dict[str, Any] = {
+            "budget": budget,
+            "prefer_observations": True,
+        }
+        if types:
+            kwargs["types"] = types
+        try:
+            resp = await self._client.arecall(
+                bank_id=bank_id_for(brand_id), query=query, **kwargs
+            )
+        except Exception:
+            logger.exception("arecall failed for bank %s", brand_id)
+            return []
+        return _normalize_recall(resp)
+
+    async def aretain_chat_turn(
+        self, brand_id: int, user_message: str, assistant_reply: str, turn_date: str
+    ) -> None:
+        """Async store a strategy conversation so past advice is recallable."""
+        content = (
+            f"USER (strategy chat): {user_message}\n"
+            f"BRANDPULSE (analyst): {assistant_reply}"
+        )
+        try:
+            await self._client.aretain(
+                bank_id=bank_id_for(brand_id),
+                items=[
+                    {
+                        "content": content,
+                        "context": CTX_CHAT,
+                        "timestamp": turn_date,
+                        "document_id": f"chat-{turn_date}",
+                        "metadata": {"kind": "strategy-chat"},
+                    }
+                ],
+                **RETAIN_KWARGS,
+            )
+        except Exception as exc:
+            logger.debug("aretain_chat_turn failed for bank %s: %s", brand_id, exc)
+
     def recall(
         self,
         brand_id: int,
@@ -160,9 +217,16 @@ class HindsightMemory:
         max_results: int = 20,
     ) -> list[dict[str, Any]]:
         """Multi-strategy memory search; returns normalized dicts."""
+        import asyncio
+        try:
+            loop = asyncio.get_running_loop()
+            if loop.is_running():
+                logger.debug("recall called from running loop; skipping sync recall")
+                return []
+        except RuntimeError:
+            pass
         kwargs: dict[str, Any] = {
             "budget": budget,
-            "max_results": max_results,
             "prefer_observations": True,
         }
         if types:
@@ -178,6 +242,14 @@ class HindsightMemory:
 
     def reflect(self, brand_id: int, query: str) -> str:
         """Agentic deep reasoning across the whole bank (slow, use sparingly)."""
+        import asyncio
+        try:
+            loop = asyncio.get_running_loop()
+            if loop.is_running():
+                logger.debug("reflect called from running loop; skipping sync reflect")
+                return ""
+        except RuntimeError:
+            pass
         try:
             resp = self._client.reflect(
                 bank_id=bank_id_for(brand_id), query=query
