@@ -47,6 +47,7 @@ class Settings(BaseSettings):
     # --- Instagram ----------------------------------------------------------
     instagram_access_token: str = ""
     instagram_user_id: str = ""
+    instagram_app_secret: str = ""
 
     # --- helpers ------------------------------------------------------------
     @property
