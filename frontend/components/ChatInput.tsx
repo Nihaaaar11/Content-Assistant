@@ -5,11 +5,15 @@ import { useRef, useState } from "react";
 export default function ChatInput({
   disabled,
   onSend,
+  onOpenConnect,
 }: {
   disabled: boolean;
   onSend: (message: string) => void | Promise<void>;
+  onOpenConnect?: () => void;
 }) {
   const [value, setValue] = useState("");
+  const [model, setModel] = useState("Grok 4 Fast");
+  const [showModelMenu, setShowModelMenu] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const submit = async () => {
@@ -29,9 +33,20 @@ export default function ChatInput({
   };
 
   return (
-    <div className="bg-zinc-950/80 px-4 py-4 md:px-8 border-t border-zinc-800/40">
-      <div className="mx-auto max-w-3xl">
-        <div className="relative flex items-end gap-2 rounded-2xl border border-zinc-700/70 bg-zinc-900/90 p-2 shadow-2xl backdrop-blur-xl transition-all focus-within:border-rose-500/60 focus-within:ring-2 focus-within:ring-rose-500/20">
+    <div className="bg-[#0e1017]/90 px-4 py-4 md:px-8 border-t border-slate-800/40">
+      <div className="mx-auto max-w-3xl relative">
+        {/* Gemini Pill Floating Container matching screenshot */}
+        <div className="relative flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26] px-4 py-2 shadow-2xl transition-all focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20">
+          {/* Plus icon on left matching screenshot */}
+          <button
+            onClick={onOpenConnect}
+            title="Connect Accounts or Upload Data"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition text-lg"
+          >
+            +
+          </button>
+
+          {/* Text Area */}
           <textarea
             ref={textareaRef}
             value={value}
@@ -45,30 +60,67 @@ export default function ChatInput({
             rows={1}
             placeholder={
               disabled
-                ? "Create or select an Instagram account first..."
-                : "Ask InstaPulse AI about your Instagram account growth..."
+                ? "Add or select a brand to start..."
+                : "Ask ContentMind"
             }
             disabled={disabled}
-            className="scroll-slim max-h-40 min-h-[44px] flex-1 resize-none bg-transparent px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none disabled:opacity-50"
+            className="scroll-slim max-h-36 flex-1 resize-none bg-transparent py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none disabled:opacity-50 font-sans"
           />
 
+          {/* Model Selector dropdown matching screenshot ('Flash ∨') */}
+          <div className="relative shrink-0">
+            <button
+              onClick={() => setShowModelMenu((v) => !v)}
+              className="flex items-center gap-1.5 rounded-full bg-[#1e2333] hover:bg-[#272e42] px-3 py-1.5 text-xs font-medium text-slate-300 transition"
+            >
+              <span>{model}</span>
+              <span className="text-[10px] text-slate-500">▼</span>
+            </button>
+
+            {showModelMenu && (
+              <div className="absolute right-0 bottom-full mb-2 w-44 rounded-xl border border-slate-800 bg-[#161a26] p-1.5 shadow-xl text-xs z-50">
+                <button
+                  onClick={() => { setModel("Grok 4 Fast"); setShowModelMenu(false); }}
+                  className="w-full rounded-lg px-3 py-2 text-left text-slate-200 hover:bg-slate-800 transition"
+                >
+                  ⚡ Grok 4 Fast
+                </button>
+                <button
+                  onClick={() => { setModel("Grok 4 Deep"); setShowModelMenu(false); }}
+                  className="w-full rounded-lg px-3 py-2 text-left text-slate-200 hover:bg-slate-800 transition"
+                >
+                  🧠 Grok 4 Reasoning
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Mic icon matching screenshot */}
+          <button
+            title="Voice input simulation"
+            onClick={() => void submit()}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-slate-800 hover:text-white transition"
+          >
+            🎙️
+          </button>
+
+          {/* Send Icon */}
           <button
             onClick={() => void submit()}
             disabled={disabled || !value.trim()}
-            title="Send Message"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-rose-500 via-purple-600 to-indigo-600 text-white shadow-md transition hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:opacity-40"
+            title="Send message"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white transition hover:bg-blue-500 disabled:opacity-30 disabled:hover:bg-blue-600"
           >
-            <svg className="h-4 w-4 transform rotate-90" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-            </svg>
+            ↗
           </button>
         </div>
 
-        <p className="mt-2 text-center text-[11px] text-zinc-500">
-          Enter to send · Shift+Enter for multiline · InstaPulse AI uses Grok 4 &amp; Hindsight memory to optimize your Instagram account strategy.
+        <p className="mt-2.5 text-center text-[11px] text-slate-500">
+          ContentMind AI powered by Grok 4 &amp; Hindsight long-term memory server.
         </p>
       </div>
     </div>
   );
 }
+
 

@@ -9,28 +9,28 @@ export type ActivityState = { label: string } | null;
 
 const SUGGESTIONS = [
   {
-    icon: "📸",
-    title: "Audit Instagram Performance",
-    sub: "Analyze Reels, hooks, views & engagement",
-    prompt: "Audit my Instagram account performance and tell me what's working best.",
+    icon: "📊",
+    title: "Cross-Platform Growth Audit",
+    sub: "Analyze Reels, Shorts, posts, and engagement across all socials",
+    prompt: "Audit my content strategy across Instagram, YouTube, and connected platforms.",
   },
   {
     icon: "🚀",
-    title: "Boost Engagement & Reach",
-    sub: "Data-backed tips on posting times & captions",
-    prompt: "How can I double my Instagram engagement rate based on my past metrics?",
+    title: "Double Engagement & Reach",
+    sub: "Data-driven posting frequency, hooks, and caption strategies",
+    prompt: "How can I double my overall engagement rate based on my content performance history?",
   },
   {
     icon: "📅",
-    title: "7-Day Content Plan",
-    sub: "Generate viral Reel scripts & carousel ideas",
-    prompt: "Restructure my content plan into a 7-day Instagram growth strategy.",
+    title: "Multi-Platform Content Calendar",
+    sub: "Generate 7-day Reel scripts, YouTube Shorts & Carousel angles",
+    prompt: "Restructure my content strategy into a 7-day cross-platform posting plan.",
   },
   {
     icon: "🔍",
-    title: "Find Account Strategy Gaps",
-    sub: "Spot low-performing posts & hashtag gaps",
-    prompt: "Where are the biggest performance gaps in my current posting schedule?",
+    title: "Identify Audience Gaps",
+    sub: "Spot low-performing post types & missing viral content opportunities",
+    prompt: "Where are the biggest performance gaps and missing opportunities in my current content?",
   },
 ];
 
@@ -52,41 +52,38 @@ export default function ChatWindow({
   }, [turns, activity]);
 
   return (
-    <div className="scroll-slim flex-1 overflow-y-auto px-4 py-6 md:px-8 bg-radial-glow">
+    <div className="scroll-slim flex-1 overflow-y-auto px-4 py-6 md:px-8 bg-gemini-glow">
       <div className="mx-auto max-w-4xl space-y-4">
         {turns.length === 0 && !activity && (
-          <div className="py-12 md:py-16 text-center">
-            {/* Glowing Icon Header */}
-            <div className="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 shadow-xl shadow-rose-500/25 animate-pulse-glow">
-              <span className="text-4xl">✨</span>
-            </div>
-
-            <h2 className="mb-2 text-2xl md:text-3xl font-bold tracking-tight text-white">
-              What would you like to grow on <span className="bg-gradient-to-r from-amber-400 via-rose-400 to-purple-400 bg-clip-text text-transparent">{brandName}</span> today?
+          <div className="py-16 md:py-24 text-center animate-fade-in-up">
+            {/* Gemini Big Center Title matching screenshot */}
+            <h2 className="mb-4 text-3xl md:text-4xl font-normal tracking-tight text-slate-100 font-sans">
+              The mic is yours, <span className="font-semibold text-white">Durga Trinadh</span>
             </h2>
-            <p className="mx-auto mb-10 max-w-lg text-sm text-zinc-400 leading-relaxed">
-              Your AI Assistant for Instagram Professional account growth. Powered by Grok 4 &amp; Hindsight memory to analyze your Reels, posts, views, and reach.
+
+            <p className="mx-auto mb-10 max-w-xl text-sm text-slate-400 leading-relaxed font-light">
+              ContentMind AI observes your social media presence ({brandName}), remembers your post performance in Hindsight, and helps you craft high-converting content plans.
             </p>
 
             {/* Prompt Cards Grid */}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 text-left">
+            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 text-left">
               {SUGGESTIONS.map((s) => (
                 <button
                   key={s.title}
                   onClick={() => onSelectSuggestion?.(s.prompt)}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-4 transition-all duration-200 hover:border-rose-500/50 hover:bg-zinc-900/90 hover:shadow-lg hover:shadow-rose-500/10 active:scale-[0.99]"
+                  className="group flex flex-col justify-between rounded-2xl border border-slate-800/70 bg-[#121622]/80 p-4 transition-all duration-200 hover:border-blue-500/40 hover:bg-[#181d2d] hover:shadow-lg active:scale-[0.99]"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-2xl mb-2">{s.icon}</span>
-                    <span className="text-xs text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                      Click to ask ↗
+                    <span className="text-[11px] text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                      Ask ContentMind ↗
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-zinc-200 group-hover:text-rose-300 transition-colors">
+                    <h3 className="text-sm font-semibold text-slate-200 group-hover:text-blue-300 transition-colors">
                       {s.title}
                     </h3>
-                    <p className="mt-1 text-xs text-zinc-400 leading-normal">
+                    <p className="mt-1 text-xs text-slate-400 leading-relaxed">
                       {s.sub}
                     </p>
                   </div>
@@ -101,15 +98,15 @@ export default function ChatWindow({
         ))}
 
         {activity && (
-          <div className="flex justify-start items-center gap-3 my-4">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-xs text-white shadow-md">
+          <div className="flex justify-start items-center gap-3 my-4 animate-fade-in-up">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-xs text-white shadow-sm">
               ✨
             </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-zinc-800/80 bg-zinc-900/80 px-4 py-3 text-xs font-medium text-zinc-300 shadow-md backdrop-blur-xs">
+            <div className="flex items-center gap-3 rounded-full border border-slate-800 bg-[#161a26] px-4 py-2.5 text-xs font-medium text-slate-300 shadow-md">
               <span className="flex gap-1">
-                <span className="h-2 w-2 animate-bounce rounded-full bg-rose-400 [animation-delay:0ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-rose-500 [animation-delay:150ms]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-purple-500 [animation-delay:300ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-blue-400 [animation-delay:0ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-400 [animation-delay:150ms]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-purple-400 [animation-delay:300ms]" />
               </span>
               <span>{activity.label}</span>
             </div>
@@ -120,4 +117,5 @@ export default function ChatWindow({
     </div>
   );
 }
+
 

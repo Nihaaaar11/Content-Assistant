@@ -32,12 +32,13 @@ async def lifespan(app: FastAPI):
     get_tools()  # register native tools
     scheduler = start_scheduler()
     app.state.scheduler = scheduler
-    logger.info("InstaPulse AI backend ready (model=%s, hindsight=%s)", settings.grok_model, settings.hindsight_url)
+    logger.info("ContentMind AI backend ready (model=%s, hindsight=%s)", settings.grok_model, settings.hindsight_url)
     yield
     stop_scheduler()
 
 
-app = FastAPI(title="InstaPulse AI — Instagram Growth & Content Assistant", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="ContentMind AI — Cross-Platform Content & Growth Agent", version="1.0.0", lifespan=lifespan)
+
 
 
 app.add_middleware(

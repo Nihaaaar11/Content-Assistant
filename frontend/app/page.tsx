@@ -27,7 +27,7 @@ export default function Home() {
         current ? list.find((b) => b.id === current.id) ?? list[0] ?? null : list[0] ?? null
       );
     } catch {
-      /* backend down — sidebar handles health display */
+      /* backend down */
     }
   }, []);
 
@@ -54,6 +54,11 @@ export default function Home() {
     setActiveBrand(brand);
   };
 
+  const handleNewChat = () => {
+    setTurns([]);
+    setActivity(null);
+  };
+
   const sendMessage = async (message: string) => {
     if (!activeBrand || activity !== null) return;
 
@@ -63,7 +68,7 @@ export default function Home() {
     }));
 
     setTurns((prev) => [...prev, { role: "user", content: message }]);
-    setActivity({ label: "Recalling Instagram memories & insights..." });
+    setActivity({ label: "Recalling past content facts & analytics..." });
 
     let assistant = "";
     let started = false;
@@ -98,7 +103,7 @@ export default function Home() {
   const disabled = !activeBrand || activity !== null;
 
   return (
-    <main className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100">
+    <main className="flex h-screen overflow-hidden bg-[#090b11] text-slate-100 font-sans">
       <Sidebar
         brands={brands}
         activeBrand={activeBrand}
@@ -112,70 +117,65 @@ export default function Home() {
         refreshKey={turns.length}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
+        onNewChat={handleNewChat}
       />
 
-      <section className="flex flex-1 flex-col overflow-hidden bg-zinc-950">
-        {/* Gemini/ChatGPT Header Bar */}
-        <header className="flex h-16 items-center justify-between border-b border-zinc-800/60 bg-zinc-950/60 px-6 backdrop-blur-md">
+      <section className="flex flex-1 flex-col overflow-hidden bg-[#090b11]">
+        {/* Gemini Header Bar matching exact screenshot */}
+        <header className="flex h-14 items-center justify-between border-b border-slate-800/40 bg-[#090b11] px-6">
           <div className="flex items-center gap-3">
             {sidebarCollapsed && (
               <button
                 onClick={() => setSidebarCollapsed(false)}
-                title="Open sidebar"
-                className="rounded-xl p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white transition"
+                title="Expand sidebar"
+                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
             )}
 
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base font-bold tracking-tight text-white">
-                  InstaPulse AI
-                </h1>
-                {activeBrand && (
-                  <span className="flex items-center gap-1 rounded-full bg-rose-500/10 border border-rose-500/20 px-2.5 py-0.5 text-xs font-semibold text-rose-300">
-                    <span>📷</span>
-                    <span>{activeBrand.name}</span>
-                  </span>
-                )}
-              </div>
-              <p className="text-[11px] text-zinc-500">
-                Instagram Professional Growth Agent · Grok 4 &amp; Hindsight Memory
-              </p>
+            <div className="flex items-center gap-2">
+              <span className="text-base font-semibold text-white">ContentMind</span>
+              {activeBrand && (
+                <span className="rounded-full bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-blue-300">
+                  {activeBrand.name}
+                </span>
+              )}
             </div>
           </div>
 
+          {/* Right side header matching Gemini screenshot 'Get app' button */}
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Grok 4 Engine Active</span>
-            </div>
+            <button
+              onClick={() => setShowConnect(true)}
+              className="flex items-center gap-1.5 rounded-full bg-[#181d2a] hover:bg-[#22283a] border border-slate-800 px-3.5 py-1.5 text-xs font-medium text-slate-200 transition shadow-xs"
+            >
+              <span>📥</span>
+              <span>Get app</span>
+            </button>
 
-            {activeBrand && (
-              <button
-                onClick={() => setShowConnect(true)}
-                className="flex items-center gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/80 px-3.5 py-2 text-xs font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800 hover:text-white shadow-sm"
-              >
-                <span>⚙️</span>
-                <span>Data Setup</span>
-              </button>
-            )}
+            <button
+              onClick={handleNewChat}
+              title="New session"
+              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition"
+            >
+              ✏️
+            </button>
           </div>
         </header>
 
-        {/* Main Content Area */}
+        {/* Main Content View */}
         {!activeBrand ? (
-          <div className="flex flex-1 items-center justify-center p-6 bg-radial-glow">
-            <div className="max-w-md w-full rounded-3xl border border-zinc-800/80 bg-zinc-900/70 p-8 text-center shadow-2xl backdrop-blur-xl">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-3xl shadow-lg shadow-rose-500/20">
+          <div className="flex flex-1 items-center justify-center p-6 bg-gemini-glow">
+            <div className="max-w-md w-full rounded-3xl border border-slate-800 bg-[#121622]/90 p-8 text-center shadow-2xl backdrop-blur-xl animate-fade-in-up">
+              <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-2xl text-white shadow-lg">
                 ✨
               </div>
-              <h2 className="mb-2 text-xl font-bold text-white">Add Your Instagram Account</h2>
-              <p className="mb-6 text-xs text-zinc-400 leading-relaxed">
-                Connect your Instagram Professional account or brand profile. InstaPulse AI will analyze your Reels, posts, and metrics to craft data-backed growth strategies.
+              <h2 className="mb-2 text-xl font-semibold text-white">Add Your Social Media Brand</h2>
+              <p className="mb-6 text-xs text-slate-400 leading-relaxed">
+                Connect your Instagram, YouTube, TikTok or Social Media brand profile. ContentMind AI will observe your content metrics and generate data-backed growth strategies.
               </p>
               <CreateBrandForm onCreate={handleCreateBrand} />
             </div>
@@ -188,7 +188,11 @@ export default function Home() {
               activity={activity}
               onSelectSuggestion={(prompt) => void sendMessage(prompt)}
             />
-            <ChatInput disabled={disabled} onSend={sendMessage} />
+            <ChatInput
+              disabled={disabled}
+              onSend={sendMessage}
+              onOpenConnect={() => setShowConnect(true)}
+            />
           </>
         )}
       </section>
@@ -199,4 +203,5 @@ export default function Home() {
     </main>
   );
 }
+
 

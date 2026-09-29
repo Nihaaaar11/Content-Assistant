@@ -28,22 +28,20 @@ export function CreateBrandForm({
 
   return (
     <div className={compact ? "space-y-2" : "space-y-3 w-full"}>
-      <div className="relative">
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && void submit()}
-          placeholder="Instagram Account / Brand Name..."
-          className="w-full rounded-xl border border-zinc-700/80 bg-zinc-950/70 px-3.5 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500/30 transition"
-        />
-      </div>
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && void submit()}
+        placeholder="Brand / Social Account Name..."
+        className="w-full rounded-xl border border-slate-700/60 bg-[#121622] px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition"
+      />
       <button
         onClick={() => void submit()}
         disabled={!name.trim() || busy}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-rose-500 via-purple-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-95 active:scale-[0.98] disabled:opacity-40 disabled:hover:opacity-40"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-40"
       >
         <span>+</span>
-        {busy ? "Creating Account..." : "Create Account"}
+        {busy ? "Adding..." : "Add Brand"}
       </button>
     </div>
   );
@@ -51,10 +49,10 @@ export function CreateBrandForm({
 
 function HealthDot({ ok, label }: { ok: boolean | null; label: string }) {
   const color =
-    ok === null ? "bg-zinc-600 shadow-none" : ok ? "bg-emerald-400 shadow-emerald-500/50" : "bg-rose-500 shadow-rose-500/50";
+    ok === null ? "bg-slate-600" : ok ? "bg-emerald-400 shadow-emerald-500/40" : "bg-rose-500";
   return (
-    <div className="flex items-center gap-2 text-[11px] text-zinc-400">
-      <span className={`h-2 w-2 rounded-full shadow-sm ${color}`} />
+    <div className="flex items-center gap-2 text-[11px] text-slate-400">
+      <span className={`h-2 w-2 rounded-full ${color}`} />
       <span>{label}</span>
     </div>
   );
@@ -83,33 +81,43 @@ function StatsCards({ brandId }: { brandId: number }) {
         : `${n}`;
 
   return (
-    <div className="mt-4 rounded-xl border border-zinc-800/80 bg-zinc-950/40 p-3 backdrop-blur-xs">
-      <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
-        Account Metrics
+    <div className="mt-3 rounded-xl border border-slate-800/80 bg-[#121622]/80 p-3 backdrop-blur-xs">
+      <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+        Cross-Platform Insights
       </div>
       <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-lg bg-zinc-900/80 p-2.5 border border-zinc-800/50">
-          <div className="text-[10px] uppercase font-medium tracking-wide text-zinc-400">Followers</div>
-          <div className="text-base font-bold text-white">
+        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+          <div className="text-[10px] uppercase font-medium text-slate-400">Audience</div>
+          <div className="text-sm font-bold text-white">
             {stats.followers !== null ? fmt(stats.followers) : "—"}
           </div>
         </div>
-        <div className="rounded-lg bg-zinc-900/80 p-2.5 border border-zinc-800/50">
-          <div className="text-[10px] uppercase font-medium tracking-wide text-zinc-400">Posts Seen</div>
-          <div className="text-base font-bold text-white">{fmt(stats.post_count)}</div>
+        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+          <div className="text-[10px] uppercase font-medium text-slate-400">Total Posts</div>
+          <div className="text-sm font-bold text-white">{fmt(stats.post_count)}</div>
         </div>
-        <div className="rounded-lg bg-zinc-900/80 p-2.5 border border-zinc-800/50">
-          <div className="text-[10px] uppercase font-medium tracking-wide text-zinc-400">Total Likes</div>
-          <div className="text-base font-bold text-rose-400">{fmt(stats.total_likes)}</div>
+        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+          <div className="text-[10px] uppercase font-medium text-slate-400">Likes</div>
+          <div className="text-sm font-bold text-blue-400">{fmt(stats.total_likes)}</div>
         </div>
-        <div className="rounded-lg bg-zinc-900/80 p-2.5 border border-zinc-800/50">
-          <div className="text-[10px] uppercase font-medium tracking-wide text-zinc-400">Reel Views</div>
-          <div className="text-base font-bold text-purple-400">{fmt(stats.total_views)}</div>
+        <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
+          <div className="text-[10px] uppercase font-medium text-slate-400">Views &amp; Reach</div>
+          <div className="text-sm font-bold text-purple-400">{fmt(stats.total_views)}</div>
         </div>
       </div>
     </div>
   );
 }
+
+const RECENT_CHATS = [
+  "Generating Facebook Access Tokens G...",
+  "Generating an Instagram Access Token",
+  "Fixing Video & Reel Engagement",
+  "Deploying Applications on GitHub",
+  "Cross-Platform Content Schedule",
+  "Fixing Outdated Deployed Website Code",
+  "Interpreting Social Analytics Report",
+];
 
 export default function Sidebar({
   brands,
@@ -121,6 +129,7 @@ export default function Sidebar({
   refreshKey,
   collapsed = false,
   onToggleCollapse,
+  onNewChat,
 }: {
   brands: Brand[];
   activeBrand: Brand | null;
@@ -131,25 +140,36 @@ export default function Sidebar({
   refreshKey: number;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
+  onNewChat?: () => void;
 }) {
   const [showCreate, setShowCreate] = useState(false);
+  const [showHealth, setShowHealth] = useState(false);
+  const [activeTab, setActiveTab] = useState<"chat" | "spark">("chat");
 
   if (collapsed) {
     return (
-      <aside className="flex w-16 shrink-0 flex-col items-center border-r border-zinc-800/60 bg-zinc-950/90 py-4">
+      <aside className="flex w-16 shrink-0 flex-col items-center border-r border-slate-800/60 bg-[#0e1017] py-4">
         <button
           onClick={onToggleCollapse}
           title="Expand sidebar"
-          className="mb-6 rounded-xl p-2 text-zinc-400 hover:bg-zinc-800/70 hover:text-white transition"
+          className="mb-6 rounded-xl p-2.5 text-slate-400 hover:bg-slate-800/60 hover:text-white transition"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
-        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shadow-lg shadow-rose-500/20">
+        <div className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg">
           ✨
         </div>
+
+        <button
+          onClick={onNewChat}
+          title="New Chat"
+          className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#1b1f2e] text-slate-200 hover:bg-blue-600 hover:text-white transition"
+        >
+          ✏️
+        </button>
 
         <div className="flex flex-1 flex-col items-center gap-2 overflow-y-auto w-full px-2 scroll-slim">
           {brands.map((b) => (
@@ -159,139 +179,219 @@ export default function Sidebar({
               title={b.name}
               className={`flex h-10 w-10 items-center justify-center rounded-xl text-xs font-bold transition ${
                 activeBrand?.id === b.id
-                  ? "bg-rose-500 text-white shadow-md shadow-rose-500/30"
-                  : "bg-zinc-900 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "bg-[#181c28] text-slate-400 hover:bg-slate-800 hover:text-white"
               }`}
             >
               {b.name.substring(0, 2).toUpperCase()}
             </button>
           ))}
         </div>
+
+        {/* User Avatar */}
+        <div className="mt-auto flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white shadow-sm">
+          D
+        </div>
       </aside>
     );
   }
 
   return (
-    <aside className="flex w-72 shrink-0 flex-col border-r border-zinc-800/60 bg-zinc-950/80 backdrop-blur-md">
-      {/* Brand Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800/60 px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white shadow-md shadow-rose-500/20">
+    <aside className="flex w-72 shrink-0 flex-col border-r border-slate-800/60 bg-[#0e1017] text-slate-200">
+      {/* Top Header matching Gemini screenshot */}
+      <div className="flex items-center justify-between border-b border-slate-800/40 px-4 py-3.5">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-600 text-white shadow-sm">
             ✨
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold tracking-tight text-white">InstaPulse AI</span>
-              <span className="rounded bg-rose-500/20 px-1.5 py-0.5 text-[9px] font-bold text-rose-300 border border-rose-500/30">
-                PRO
-              </span>
-            </div>
-            <div className="text-[11px] font-medium text-zinc-400">Instagram Growth Agent</div>
-          </div>
+          <span className="text-lg font-medium tracking-tight text-white font-sans">ContentMind</span>
         </div>
 
         {onToggleCollapse && (
           <button
             onClick={onToggleCollapse}
             title="Collapse sidebar"
-            className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-800 hover:text-white transition"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800/60 hover:text-white transition"
           >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         )}
       </div>
 
-      {/* Main List */}
-      <div className="scroll-slim flex-1 overflow-y-auto px-3 py-3">
-        {/* New Account Button */}
+      {/* Main Sidebar Scroll Container */}
+      <div className="scroll-slim flex-1 overflow-y-auto px-3 py-3 space-y-4">
+        {/* Gemini Pill Tabs: Chat | Spark BETA */}
+        <div className="flex rounded-full bg-[#181c28] p-1 text-xs">
+          <button
+            onClick={() => setActiveTab("chat")}
+            className={`flex-1 rounded-full py-1.5 font-medium transition ${
+              activeTab === "chat"
+                ? "bg-[#252b3e] text-white shadow-xs"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            Chat
+          </button>
+          <button
+            onClick={() => setActiveTab("spark")}
+            className={`flex-1 rounded-full py-1.5 font-medium transition flex items-center justify-center gap-1 ${
+              activeTab === "spark"
+                ? "bg-[#252b3e] text-white shadow-xs"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span>Spark</span>
+            <span className="rounded bg-indigo-500/30 px-1 py-0.2 text-[9px] font-bold text-indigo-300">BETA</span>
+          </button>
+        </div>
+
+        {/* Gemini "+ New Chat" Button */}
         <button
-          onClick={() => setShowCreate((v) => !v)}
-          className="mb-3 flex w-full items-center justify-between rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-3.5 py-2.5 text-xs font-semibold text-zinc-200 transition hover:border-zinc-700 hover:bg-zinc-800/70"
+          onClick={onNewChat}
+          className="flex w-full items-center gap-3 rounded-full bg-[#191d2a] hover:bg-[#23293b] px-4 py-2.5 text-xs font-medium text-slate-100 transition shadow-xs border border-slate-800/50 active:scale-[0.99]"
         >
-          <span className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-rose-500/20 text-rose-400 font-bold text-xs">+</span>
-            <span>New Instagram Account</span>
-          </span>
-          <span className="text-zinc-500 text-xs">{showCreate ? "▲" : "▼"}</span>
+          <span className="text-sm">✏️</span>
+          <span>New chat</span>
         </button>
 
-        {showCreate && (
-          <div className="mb-4 rounded-xl border border-zinc-800/80 bg-zinc-900/80 p-3 shadow-inner">
-            <CreateBrandForm onCreate={onCreate} compact />
-          </div>
-        )}
+        {/* Nav Items */}
+        <div className="space-y-0.5 text-xs text-slate-300">
+          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
+            <span>🔍</span>
+            <span>Search chats</span>
+          </button>
 
-        <div className="mb-1 px-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
-          Your Accounts
+          <button className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
+            <span className="flex items-center gap-3">
+              <span>🎓</span>
+              <span>Students</span>
+            </span>
+            <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-medium text-blue-300">
+              New
+            </span>
+          </button>
+
+          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
+            <span>🖼️</span>
+            <span>Images &amp; Visuals</span>
+          </button>
+
+          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition">
+            <span>🎬</span>
+            <span>Videos &amp; Reels</span>
+          </button>
+
+          <button
+            onClick={onConnect}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-[#181c28] hover:text-white transition"
+          >
+            <span>⚙️</span>
+            <span>Connect Accounts &amp; Data</span>
+          </button>
         </div>
 
-        {brands.length === 0 && !showCreate && (
-          <div className="my-2 rounded-xl border border-dashed border-zinc-800 p-4 text-center">
-            <p className="text-xs text-zinc-400">No Instagram accounts added yet.</p>
+        {/* Section: Brands & Accounts */}
+        <div className="pt-2 border-t border-slate-800/40">
+          <div className="flex items-center justify-between px-2 mb-1">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+              Connected Brands
+            </span>
             <button
-              onClick={() => setShowCreate(true)}
-              className="mt-2 text-xs font-medium text-rose-400 hover:underline"
+              onClick={() => setShowCreate((v) => !v)}
+              className="text-xs font-semibold text-blue-400 hover:underline"
             >
-              Add your first account
+              {showCreate ? "Cancel" : "+ Add"}
             </button>
           </div>
-        )}
 
-        <div className="space-y-1">
-          {brands.map((brand) => {
-            const isSelected = activeBrand?.id === brand.id;
-            return (
-              <button
-                key={brand.id}
-                onClick={() => onSelect(brand)}
-                className={`group flex w-full flex-col gap-0.5 rounded-xl px-3.5 py-2.5 text-left transition ${
-                  isSelected
-                    ? "bg-gradient-to-r from-rose-500/20 via-purple-500/15 to-transparent text-white border border-rose-500/30"
-                    : "text-zinc-300 hover:bg-zinc-900/80 hover:text-white border border-transparent"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="truncate text-sm font-semibold">{brand.name}</span>
-                  {isSelected && (
-                    <span className="h-2 w-2 rounded-full bg-rose-500 shadow-sm shadow-rose-500" />
-                  )}
-                </div>
-                <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
-                  <span>📷 Instagram</span>
-                  {brand.platforms.includes("youtube") && <span>· ▶️ YouTube</span>}
-                </div>
-              </button>
-            );
-          })}
-        </div>
+          {showCreate && (
+            <div className="my-2 rounded-xl bg-[#141824] p-3 border border-slate-800">
+              <CreateBrandForm onCreate={onCreate} compact />
+            </div>
+          )}
 
-        {activeBrand && (
-          <>
+          <div className="space-y-1 mt-1">
+            {brands.map((brand) => {
+              const isSelected = activeBrand?.id === brand.id;
+              return (
+                <button
+                  key={brand.id}
+                  onClick={() => onSelect(brand)}
+                  className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs transition ${
+                    isSelected
+                      ? "bg-blue-600/20 text-blue-300 font-semibold border border-blue-500/30"
+                      : "text-slate-300 hover:bg-[#181c28] hover:text-white border border-transparent"
+                  }`}
+                >
+                  <span className="truncate">{brand.name}</span>
+                  <span className="text-[10px] text-slate-500">
+                    {brand.platforms.length > 0 ? brand.platforms.join("·") : "Cross-platform"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {activeBrand && (
             <StatsCards key={`${activeBrand.id}-${refreshKey}`} brandId={activeBrand.id} />
+          )}
+        </div>
 
-            <button
-              onClick={onConnect}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/50 px-3 py-2 text-xs font-medium text-zinc-300 transition hover:border-zinc-700 hover:bg-zinc-800 hover:text-white"
-            >
-              <span>⚙️</span>
-              <span>Data Setup & Connect</span>
-            </button>
-          </>
-        )}
+        {/* Section: Recent Chats matching screenshot */}
+        <div className="pt-2 border-t border-slate-800/40">
+          <div className="px-2 mb-1 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            Recent
+          </div>
+          <div className="space-y-0.5">
+            {RECENT_CHATS.map((title, i) => (
+              <button
+                key={i}
+                onClick={onNewChat}
+                className="w-full truncate rounded-lg px-3 py-1.5 text-left text-xs text-slate-400 hover:bg-[#181c28] hover:text-slate-200 transition"
+              >
+                {title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Footer System Health */}
-      <div className="space-y-1.5 border-t border-zinc-800/60 bg-zinc-950/40 px-4 py-3">
-        <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
-          Agent System Status
+      {/* Bottom User Profile Bar matching exact screenshot */}
+      <div className="relative border-t border-slate-800/50 bg-[#0b0d13] px-3.5 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            {/* Green Avatar Circle matching screenshot */}
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 font-bold text-white text-xs shadow-xs">
+              D
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="text-xs font-semibold text-white leading-tight">Durga Trinadh Goka</span>
+              <span className="text-[10px] font-medium text-slate-400">Pro Member</span>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setShowHealth((v) => !v)}
+            title="System Status & Health"
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition"
+          >
+            ⚙️
+          </button>
         </div>
-        <HealthDot ok={health ? health.hindsight : null} label="Hindsight Memory Bank" />
-        <HealthDot ok={health ? health.grok_configured : null} label="Grok 4 Intelligence" />
-        <HealthDot ok={health ? health.scheduler : null} label="Auto-Collector Pipeline" />
+
+        {showHealth && (
+          <div className="mt-3 rounded-xl border border-slate-800 bg-[#121622] p-3 space-y-2 text-xs">
+            <div className="font-semibold text-slate-300">System Status</div>
+            <HealthDot ok={health ? health.hindsight : null} label="Hindsight Memory Bank" />
+            <HealthDot ok={health ? health.grok_configured : null} label="Grok 4 Engine" />
+            <HealthDot ok={health ? health.scheduler : null} label="Auto-Collector Pipeline" />
+          </div>
+        )}
       </div>
     </aside>
   );
 }
+
 
