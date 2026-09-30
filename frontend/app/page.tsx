@@ -231,7 +231,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 mr-28">
+          <div
+            className="flex items-center gap-3"
+            style={{ marginRight: "calc(var(--sm-toggle-width, 5.5rem) + 1.5rem)" }}
+          >
             <button
               onClick={() => setShowConnect(true)}
               className="flex items-center gap-1.5 rounded-full bg-[#140a24] hover:bg-purple-950 border border-purple-900/40 px-3.5 py-1.5 text-xs font-medium text-purple-200 transition shadow-xs cursor-pointer"

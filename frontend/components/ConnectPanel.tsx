@@ -56,7 +56,7 @@ export default function ConnectPanel({
           <div
             className={`mb-4 rounded-lg px-3 py-2 text-xs ${notice.kind === "ok"
                 ? "bg-purple-950/60 border border-[#A855F7]/40 text-purple-200"
-                : "bg-purple-950/90 border border-purple-800 text-purple-200"
+                : "bg-purple-950/90 border border-red-500/50 text-red-300"
               }`}
           >
             {notice.text}

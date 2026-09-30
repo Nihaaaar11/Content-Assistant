@@ -9,6 +9,7 @@
 :root {
   --theme-accent: #A855F7;
   --theme-accent-glow: rgba(168, 85, 247, 0.3);
+  --sm-toggle-width: 5.5rem;
 }
 
 /* selection highlight */

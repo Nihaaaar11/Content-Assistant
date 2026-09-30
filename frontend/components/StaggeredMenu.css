@@ -54,7 +54,10 @@
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  width: var(--sm-toggle-width, auto);
+  min-width: var(--sm-toggle-width, auto);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -94,8 +97,6 @@
   height: 1em;
   overflow: hidden;
   white-space: nowrap;
-  width: var(--sm-toggle-width, auto);
-  min-width: var(--sm-toggle-width, auto);
 }
 
 .sm-toggle-textInner {
