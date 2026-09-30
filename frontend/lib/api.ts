@@ -6,10 +6,17 @@ export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, {
-    headers: { "Content-Type": "application/json" },
-    ...init,
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      headers: { "Content-Type": "application/json" },
+      ...init,
+    });
+  } catch (err: any) {
+    throw new Error(
+      `Failed to connect to backend (${API_URL}): ${err?.message || "Server unreachable"}`
+    );
+  }
   if (!res.ok) {
     let detail = res.statusText;
     try {
@@ -105,12 +112,21 @@ export async function streamChat(
   handlers: StreamHandlers,
   signal?: AbortSignal
 ): Promise<void> {
-  const res = await fetch(`${API_URL}/api/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ brand_id: brandId, message, history }),
-    signal,
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ brand_id: brandId, message, history }),
+      signal,
+    });
+  } catch (err: any) {
+    if (err.name === "AbortError") return;
+    handlers.onError(
+      `Failed to connect to backend server at ${API_URL}. Please check if the FastAPI backend is running.`
+    );
+    return;
+  }
   if (!res.ok || !res.body) {
     let detail = `HTTP ${res.status}`;
     try {
