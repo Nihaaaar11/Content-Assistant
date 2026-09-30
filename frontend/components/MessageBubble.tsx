@@ -50,7 +50,7 @@ export default function MessageBubble({ turn }: { turn: ChatTurn }) {
       <div
         className={
           isUser
-            ? "max-w-[80%] rounded-2xl rounded-br-sm bg-sky-600 px-4 py-2.5 text-sm text-white"
+            ? "max-w-[80%] rounded-2xl rounded-br-sm bg-[#A855F7] px-4 py-2.5 text-sm text-white shadow-md shadow-[#A855F7]/25"
             : "max-w-[85%] rounded-2xl rounded-bl-sm bg-zinc-800/80 px-4 py-3 text-zinc-100"
         }
       >

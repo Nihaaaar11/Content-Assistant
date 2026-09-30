@@ -44,9 +44,8 @@ export default function ConnectPanel({
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`flex-1 rounded-md px-3 py-1.5 transition ${
-                tab === key ? "bg-zinc-700 text-white" : "text-zinc-400 hover:text-white"
-              }`}
+              className={`flex-1 rounded-md px-3 py-1.5 transition ${tab === key ? "bg-zinc-700 text-white" : "text-zinc-400 hover:text-white"
+                }`}
             >
               {label}
             </button>
@@ -55,11 +54,10 @@ export default function ConnectPanel({
 
         {notice && (
           <div
-            className={`mb-4 rounded-lg px-3 py-2 text-xs ${
-              notice.kind === "ok"
-                ? "bg-emerald-900/40 text-emerald-300"
-                : "bg-red-900/40 text-red-300"
-            }`}
+            className={`mb-4 rounded-lg px-3 py-2 text-xs ${notice.kind === "ok"
+                ? "bg-purple-950/60 border border-[#A855F7]/40 text-purple-200"
+                : "bg-purple-950/90 border border-purple-800 text-purple-200"
+              }`}
           >
             {notice.text}
           </div>
@@ -121,12 +119,12 @@ function YouTubeForm({
   };
 
   return (
-    <div className="rounded-xl border border-zinc-800 p-4">
+    <div className="rounded-xl border border-purple-950/60 bg-[#140a24]/60 p-4">
       <div className="mb-1 flex items-center justify-between">
-        <div className="text-sm font-medium">
-          ▶️ YouTube {alreadyConnected && <span className="text-emerald-400">· connected</span>}
+        <div className="text-sm font-medium text-white">
+          YouTube {alreadyConnected && <span className="text-[#A855F7] font-semibold">· connected</span>}
         </div>
-        <button onClick={() => setOpen(!open)} className="text-xs text-sky-400">
+        <button onClick={() => setOpen(!open)} className="text-xs text-[#A855F7] font-medium">
           {open ? "Hide" : "Setup"}
         </button>
       </div>
@@ -150,7 +148,7 @@ function YouTubeForm({
           />
           <button
             onClick={() => void connect()}
-            className="w-full rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500"
+            className="w-full rounded-lg bg-[#A855F7] px-3 py-2 text-sm font-medium hover:bg-[#9333EA] transition shadow-md shadow-[#A855F7]/20"
           >
             Connect YouTube
           </button>
@@ -188,12 +186,12 @@ function InstagramForm({
   };
 
   return (
-    <div className="rounded-xl border border-zinc-800 p-4">
+    <div className="rounded-xl border border-purple-950/60 bg-[#140a24]/60 p-4">
       <div className="mb-1 flex items-center justify-between">
-        <div className="text-sm font-medium">
-          📷 Instagram {alreadyConnected && <span className="text-emerald-400">· connected</span>}
+        <div className="text-sm font-medium text-white">
+          Instagram {alreadyConnected && <span className="text-[#A855F7] font-semibold">· connected</span>}
         </div>
-        <button onClick={() => setOpen(!open)} className="text-xs text-sky-400">
+        <button onClick={() => setOpen(!open)} className="text-xs text-[#A855F7] font-medium">
           {open ? "Hide" : "Setup"}
         </button>
       </div>
@@ -212,12 +210,12 @@ function InstagramForm({
           <input
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
-            placeholder="Instagram user ID (optional)"
+            placeholder="Instagram user ID "
             className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm"
           />
           <button
             onClick={() => void connect()}
-            className="w-full rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500"
+            className="w-full rounded-lg bg-[#A855F7] px-3 py-2 text-sm font-medium hover:bg-[#9333EA] transition shadow-md shadow-[#A855F7]/20"
           >
             Connect Instagram
           </button>
@@ -265,7 +263,7 @@ function PasteTab({
       <button
         onClick={() => void submit()}
         disabled={!csv.trim()}
-        className="w-full rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500 disabled:opacity-40"
+        className="w-full rounded-lg bg-[#A855F7] px-3 py-2 text-sm font-medium hover:bg-[#9333EA] transition shadow-md shadow-[#A855F7]/20 disabled:opacity-40"
       >
         Ingest rows
       </button>
@@ -288,9 +286,8 @@ function ActionsTab({
       const res = await ingestNow(brand.id);
       setNotice({
         kind: "ok",
-        text: `Collected: ${res.new_posts} new, ${res.refreshed} updated.${
-          res.errors.length ? ` Warnings: ${res.errors.join("; ")}` : ""
-        }`,
+        text: `Collected: ${res.new_posts} new, ${res.refreshed} updated.${res.errors.length ? ` Warnings: ${res.errors.join("; ")}` : ""
+          }`,
       });
     } catch (e) {
       setNotice({ kind: "err", text: String(e) });
@@ -320,7 +317,7 @@ function ActionsTab({
       <button
         onClick={() => void collect()}
         disabled={busy !== null}
-        className="w-full rounded-lg bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500 disabled:opacity-40"
+        className="w-full rounded-lg bg-[#A855F7] px-3 py-2 text-sm font-medium hover:bg-[#9333EA] transition shadow-md shadow-[#A855F7]/20 disabled:opacity-40"
       >
         {busy === "collect" ? "Collecting…" : "Collect now"}
       </button>

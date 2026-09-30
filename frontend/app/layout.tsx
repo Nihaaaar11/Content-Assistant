@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BrandPulse — AI Content Strategist",
+  title: "ContentMind",
   description:
-    "Grok × Hindsight agent that observes your brand's social content and helps you plan what's next.",
+    "Grok & Gemini LLM powered strategy advicing agent with a pinch of Hindsight",
 };
 
 export default function RootLayout({

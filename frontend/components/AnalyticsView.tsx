@@ -42,9 +42,9 @@ export default function AnalyticsView({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60 pb-5">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white font-sans flex items-center gap-3">
-            <span>📊 Performance &amp; Growth Analytics</span>
+            <span> Performance &amp; Growth Analytics</span>
             {brand && (
-              <span className="rounded-full bg-blue-500/10 border border-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300">
+              <span className="rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 px-3 py-1 text-xs font-semibold text-purple-300">
                 {brand.name}
               </span>
             )}
@@ -60,9 +60,8 @@ export default function AnalyticsView({
               `Generate a full cross-platform growth audit for ${brand ? brand.name : "my brand"} with top 3 focus areas for this week.`
             )
           }
-          className="flex items-center gap-2 rounded-full bg-linear-to-tr from-blue-600 to-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-600/20 transition hover:scale-105 active:scale-95"
+          className="flex items-center gap-2 rounded-full bg-linear-to-tr from-[#A855F7] to-purple-700 px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#A855F7]/25 transition hover:scale-105 active:scale-95"
         >
-          <span>✨</span>
           <span>Generate AI Growth Audit</span>
         </button>
       </div>
@@ -70,43 +69,43 @@ export default function AnalyticsView({
       {/* Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <LiquidGlassCard className="p-5">
-          <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Audience</div>
+          <div className="text-xs font-medium text-purple-300/70 uppercase tracking-wider">Total Audience</div>
           <div className="mt-2 text-3xl font-extrabold text-white">
             {stats?.followers ? fmt(stats.followers) : "12.4K"}
           </div>
-          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-            <span>↑ +8.4%</span>
-            <span className="text-slate-500">vs last 30d</span>
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-purple-300">
+            <span>+8.4%</span>
+            <span className="text-purple-300/50">vs last 30d</span>
           </div>
         </LiquidGlassCard>
 
         <LiquidGlassCard className="p-5">
-          <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Impressions &amp; Views</div>
+          <div className="text-xs font-medium text-purple-300/70 uppercase tracking-wider">Total Impressions &amp; Views</div>
           <div className="mt-2 text-3xl font-extrabold text-purple-300">
             {stats?.total_views ? fmt(stats.total_views) : "142.8K"}
           </div>
-          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-            <span>↑ +14.2%</span>
-            <span className="text-slate-500">across platforms</span>
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-purple-300">
+            <span>+14.2%</span>
+            <span className="text-purple-300/50">across platforms</span>
           </div>
         </LiquidGlassCard>
 
         <LiquidGlassCard className="p-5">
-          <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Likes &amp; Reaction</div>
-          <div className="mt-2 text-3xl font-extrabold text-blue-300">
+          <div className="text-xs font-medium text-purple-300/70 uppercase tracking-wider">Total Likes &amp; Reaction</div>
+          <div className="mt-2 text-3xl font-extrabold text-[#C084FC]">
             {stats?.total_likes ? fmt(stats.total_likes) : "18.9K"}
           </div>
-          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-blue-400">
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-[#A855F7]">
             <span>High Engagement Rate</span>
           </div>
         </LiquidGlassCard>
 
         <LiquidGlassCard className="p-5">
-          <div className="text-xs font-medium text-slate-400 uppercase tracking-wider">Indexed Posts</div>
-          <div className="mt-2 text-3xl font-extrabold text-indigo-300">
+          <div className="text-xs font-medium text-purple-300/70 uppercase tracking-wider">Indexed Posts</div>
+          <div className="mt-2 text-3xl font-extrabold text-purple-300">
             {stats?.post_count ?? posts.length ?? 24}
           </div>
-          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-slate-400">
+          <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-purple-300/60">
             <span>Synced across 4 channels</span>
           </div>
         </LiquidGlassCard>
@@ -115,36 +114,36 @@ export default function AnalyticsView({
       {/* Top Posts & Content Audit Table */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <span>🚀 Content Performance Audit</span>
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <span>Content Performance Audit</span>
           </h2>
-          <span className="text-xs text-slate-400">Showing latest synced content metrics</span>
+          <span className="text-xs text-purple-300/60">Showing latest synced content metrics</span>
         </div>
 
         <LiquidGlassCard className="p-0 overflow-hidden">
           {loading ? (
-            <div className="p-12 text-center text-sm text-slate-400">
+            <div className="p-12 text-center text-sm text-purple-300/60">
               Loading brand metrics and post telemetry...
             </div>
           ) : posts.length === 0 ? (
             <div className="p-10 text-center space-y-3">
-              <p className="text-sm text-slate-300 font-medium">No external posts synced yet.</p>
-              <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-purple-200 font-medium">No external posts synced yet.</p>
+              <p className="text-xs text-purple-300/60 max-w-md mx-auto">
                 Connect your Instagram, YouTube, or TikTok accounts to pull automatic post metrics and engagement trends.
               </p>
               <button
                 onClick={() =>
                   onAskAI("How do I connect my social media accounts to sync posts?")
                 }
-                className="inline-flex items-center gap-1.5 rounded-full bg-blue-600/20 border border-blue-500/30 px-4 py-2 text-xs font-semibold text-blue-300 hover:bg-blue-600/30 transition"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[#A855F7]/20 border border-[#A855F7]/30 px-4 py-2 text-xs font-semibold text-purple-300 hover:bg-[#A855F7]/30 transition"
               >
-                <span>Connect Account Guide ↗</span>
+                <span>Connect Account Guide</span>
               </button>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs text-slate-300">
-                <thead className="bg-[#121622] text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+              <table className="w-full text-left text-xs text-purple-200">
+                <thead className="bg-[#130826] text-[11px] uppercase tracking-wider text-purple-300/80 border-b border-purple-950/60">
                   <tr>
                     <th className="px-5 py-3">Platform</th>
                     <th className="px-5 py-3">Caption / Title</th>
@@ -154,22 +153,22 @@ export default function AnalyticsView({
                     <th className="px-5 py-3 text-right">AI Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60">
+                <tbody className="divide-y divide-purple-950/60">
                   {posts.map((post) => (
-                    <tr key={post.id} className="hover:bg-slate-800/30 transition">
+                    <tr key={post.id} className="hover:bg-purple-950/30 transition">
                       <td className="px-5 py-3.5 font-semibold text-slate-200 capitalize">
                         {post.platform}
                       </td>
                       <td className="px-5 py-3.5 max-w-xs truncate text-slate-300">
                         {post.caption || "No caption text"}
                       </td>
-                      <td className="px-5 py-3.5 text-blue-400 font-medium">
+                      <td className="px-5 py-3.5 text-purple-400 font-medium">
                         {post.metrics?.likes ?? 0}
                       </td>
-                      <td className="px-5 py-3.5 text-indigo-400 font-medium">
+                      <td className="px-5 py-3.5 text-[#C084FC] font-medium">
                         {post.metrics?.comments ?? 0}
                       </td>
-                      <td className="px-5 py-3.5 text-purple-400 font-medium">
+                      <td className="px-5 py-3.5 text-[#A855F7] font-medium">
                         {post.metrics?.views ?? 0}
                       </td>
                       <td className="px-5 py-3.5 text-right">
@@ -179,9 +178,9 @@ export default function AnalyticsView({
                               `Optimize this caption for higher engagement on ${post.platform}: "${post.caption}"`
                             )
                           }
-                          className="rounded-lg bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 text-[11px] font-semibold text-blue-300 hover:bg-blue-500/20 transition"
+                          className="rounded-lg bg-[#A855F7]/10 border border-[#A855F7]/20 px-2.5 py-1 text-[11px] font-semibold text-purple-300 hover:bg-[#A855F7]/20 transition"
                         >
-                          Optimize ↗
+                          Optimize
                         </button>
                       </td>
                     </tr>

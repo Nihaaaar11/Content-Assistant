@@ -33,12 +33,12 @@ export function CreateBrandForm({
         onChange={(e) => setName(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && void submit()}
         placeholder="Brand / Account Name..."
-        className="w-full rounded-xl border border-slate-700/60 bg-[#121622] px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500/30 transition"
+        className="w-full rounded-xl border border-slate-700/60 bg-[#121622] px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-[#A855F7] focus:outline-none focus:ring-1 focus:ring-[#A855F7]/30 transition"
       />
       <button
         onClick={() => void submit()}
         disabled={!name.trim() || busy}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-blue-500 active:scale-[0.98] disabled:opacity-40 cursor-pointer"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#A855F7] px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#9333EA] active:scale-[0.98] disabled:opacity-40 cursor-pointer"
       >
         <span>+</span>
         {busy ? "Adding..." : "Add Brand"}
@@ -49,9 +49,9 @@ export function CreateBrandForm({
 
 function HealthDot({ ok, label }: { ok: boolean | null; label: string }) {
   const color =
-    ok === null ? "bg-slate-600" : ok ? "bg-emerald-400 shadow-emerald-500/40" : "bg-rose-500";
+    ok === null ? "bg-zinc-600" : ok ? "bg-[#A855F7] shadow-[#A855F7]/40" : "bg-purple-950 border border-purple-800";
   return (
-    <div className="flex items-center gap-2 text-[11px] text-slate-400">
+    <div className="flex items-center gap-2 text-[11px] text-zinc-400">
       <span className={`h-2 w-2 rounded-full ${color}`} />
       <span>{label}</span>
     </div>
@@ -87,14 +87,14 @@ function StatsCards({ brandId }: { brandId: number }) {
           Cross-Platform Insights
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-            <div className="text-[10px] uppercase font-medium text-slate-400">Audience</div>
+          <div className="rounded-lg bg-[#140a24] p-2 border border-purple-900/30">
+            <div className="text-[10px] uppercase font-medium text-purple-300/70">Audience</div>
             <div className="text-sm font-bold text-white">
               {stats.followers !== null ? fmt(stats.followers) : "—"}
             </div>
           </div>
-          <div className="rounded-lg bg-[#181d2c] p-2 border border-slate-800/60">
-            <div className="text-[10px] uppercase font-medium text-slate-400">Total Posts</div>
+          <div className="rounded-lg bg-[#140a24] p-2 border border-purple-900/30">
+            <div className="text-[10px] uppercase font-medium text-purple-300/70">Total Posts</div>
             <div className="text-sm font-bold text-white">{fmt(stats.post_count)}</div>
           </div>
         </div>
@@ -144,47 +144,47 @@ export default function Sidebar({
 
   if (collapsed) {
     return (
-      <aside className="flex w-16 flex-col items-center justify-between border-r border-slate-800/60 bg-[#0c0e17] py-4 z-40 transition-all">
+      <aside className="flex w-16 flex-col items-center justify-between border-r border-purple-950/60 bg-[#090514] py-4 z-40 transition-all">
         <div className="flex flex-col items-center gap-6">
           <button
             onClick={onToggleCollapse}
             title="Expand sidebar"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-800/60 text-slate-300 hover:bg-slate-700 hover:text-white transition cursor-pointer"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-950/40 text-purple-200 hover:bg-purple-900/60 hover:text-white transition cursor-pointer text-xs font-bold"
           >
-            ☰
+            M
           </button>
 
           <button
             onClick={onNewChat}
             title="New session"
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/30 text-blue-300 hover:bg-blue-600 hover:text-white transition cursor-pointer text-lg"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#A855F7]/20 text-purple-300 hover:bg-[#A855F7] hover:text-white transition cursor-pointer text-lg font-bold"
           >
             +
           </button>
         </div>
 
         <div className="flex flex-col items-center gap-3">
-          <span className="text-[10px] text-slate-500 font-mono">v1.0</span>
+          <span className="text-[10px] text-purple-300/40 font-mono">v1.0</span>
         </div>
       </aside>
     );
   }
 
   return (
-    <aside className="flex w-72 flex-col justify-between border-r border-slate-800/60 bg-[#0c0e17] p-4 z-40 transition-all overflow-y-auto scroll-slim">
+    <aside className="flex w-72 flex-col justify-between border-r border-purple-950/60 bg-[#090514] p-4 z-40 transition-all overflow-y-auto scroll-slim">
       <div className="space-y-6">
         {/* Brand Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-tr from-blue-500 to-purple-600 text-white font-bold shadow-md shadow-blue-500/20">
-              ✨
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-tr from-[#A855F7] to-purple-800 text-white font-bold text-sm shadow-md shadow-[#A855F7]/25">
+              C
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-slate-100 text-sm tracking-tight font-sans">ContentMind</span>
-                <span className="rounded-full bg-blue-500/20 px-1.5 py-0.2 text-[9px] font-bold text-blue-300">AI</span>
+                <span className="font-semibold text-white text-sm tracking-tight font-sans">ContentMind</span>
+                <span className="rounded-full bg-[#A855F7]/20 px-1.5 py-0.2 text-[9px] font-bold text-purple-300">AI</span>
               </div>
-              <p className="text-[11px] text-slate-400">Growth Analyst</p>
+              <p className="text-[11px] text-purple-300/70">Growth Analyst</p>
             </div>
           </div>
 
@@ -192,21 +192,21 @@ export default function Sidebar({
             <button
               onClick={onToggleCollapse}
               title="Collapse sidebar"
-              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition cursor-pointer"
+              className="rounded-lg px-2 py-1 text-purple-300/70 hover:bg-purple-950 hover:text-white transition cursor-pointer text-[11px] font-medium"
             >
-              ◀
+              Hide
             </button>
           )}
         </div>
 
         {/* Navigation Mode Switcher (Chat vs Spark) */}
-        <div className="grid grid-cols-2 gap-1 rounded-xl bg-[#141826] p-1 border border-slate-800/80">
+        <div className="grid grid-cols-2 gap-1 rounded-xl bg-[#140a24] p-1 border border-purple-900/40">
           <button
             onClick={() => onSelectTab("chat")}
             className={`rounded-lg py-1.5 text-xs font-medium transition cursor-pointer ${
               activeTab === "chat"
-                ? "bg-blue-600 text-white shadow-xs font-semibold"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#A855F7] text-white shadow-xs font-semibold"
+                : "text-purple-300/70 hover:text-white"
             }`}
           >
             Chat
@@ -215,8 +215,8 @@ export default function Sidebar({
             onClick={() => onSelectTab("spark")}
             className={`rounded-lg py-1.5 text-xs font-medium transition flex items-center justify-center gap-1 cursor-pointer ${
               activeTab === "spark"
-                ? "bg-purple-600 text-white shadow-xs font-semibold"
-                : "text-slate-400 hover:text-slate-200"
+                ? "bg-[#9333EA] text-white shadow-xs font-semibold"
+                : "text-purple-300/70 hover:text-white"
             }`}
           >
             <span>Spark</span>
@@ -227,49 +227,44 @@ export default function Sidebar({
         {/* New Chat Button */}
         <button
           onClick={onNewChat}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/50 px-4 py-2.5 text-xs font-semibold text-slate-200 shadow-xs transition active:scale-[0.98] cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#140a24] hover:bg-purple-950 border border-purple-900/40 px-4 py-2.5 text-xs font-semibold text-purple-200 shadow-xs transition active:scale-[0.98] cursor-pointer"
         >
-          <span>✏️</span>
           <span>New session</span>
         </button>
 
         {/* Main Content Modules */}
         <div className="space-y-1">
-          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-purple-400/70">
             Modules
           </div>
 
           <button
             onClick={() => onQuickPrompt("Analyze my Instagram growth trends, post metrics, and follower engagement rate.")}
-            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition text-left cursor-pointer"
+            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-zinc-300 hover:bg-purple-950/60 hover:text-white transition text-left cursor-pointer"
           >
-            <span>📱</span>
             <span>Instagram Growth</span>
           </button>
 
           <button
             onClick={() => onSelectTab("analytics")}
             className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium transition text-left cursor-pointer ${
-              activeTab === "analytics" ? "bg-blue-600/20 text-blue-300 font-semibold" : "text-slate-300 hover:bg-slate-800/60 hover:text-white"
+              activeTab === "analytics" ? "bg-[#A855F7]/20 text-purple-300 font-semibold" : "text-zinc-300 hover:bg-purple-950/60 hover:text-white"
             }`}
           >
-            <span>📊</span>
             <span>YouTube Shorts &amp; Analytics</span>
           </button>
 
           <button
             onClick={() => onQuickPrompt("Generate a 7-day viral video script outline for my Reels and Shorts.")}
-            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition text-left cursor-pointer"
+            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-zinc-300 hover:bg-purple-950/60 hover:text-white transition text-left cursor-pointer"
           >
-            <span>🎬</span>
             <span>Reels &amp; Video Scripts</span>
           </button>
 
           <button
             onClick={onConnect}
-            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition text-left cursor-pointer"
+            className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-zinc-300 hover:bg-purple-950/60 hover:text-white transition text-left cursor-pointer"
           >
-            <span>⚙️</span>
             <span>Connect Platforms &amp; Data</span>
           </button>
         </div>
@@ -277,19 +272,19 @@ export default function Sidebar({
         {/* Connected Brands */}
         <div className="space-y-2">
           <div className="flex items-center justify-between px-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400/70">
               Connected Brands
             </span>
             <button
               onClick={() => setShowAddForm((v) => !v)}
-              className="text-xs font-medium text-blue-400 hover:text-blue-300 transition cursor-pointer"
+              className="text-xs font-medium text-[#A855F7] hover:text-purple-300 transition cursor-pointer"
             >
               + Add
             </button>
           </div>
 
           {showAddForm && (
-            <div className="p-2 rounded-xl bg-[#141826] border border-slate-800">
+            <div className="p-2 rounded-xl bg-[#140a24] border border-purple-900/40">
               <CreateBrandForm
                 compact
                 onCreate={async (n, d) => {
@@ -311,7 +306,7 @@ export default function Sidebar({
                   onClick={() => onSelectBrand(b)}
                   className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition cursor-pointer ${
                     activeBrand?.id === b.id
-                      ? "bg-blue-600/20 text-blue-300 border border-blue-500/30 font-semibold"
+                      ? "bg-[#A855F7]/20 text-purple-300 border border-[#A855F7]/30 font-semibold"
                       : "text-slate-300 hover:bg-slate-800/60 hover:text-white"
                   }`}
                 >
@@ -336,7 +331,7 @@ export default function Sidebar({
               onClick={() => onQuickPrompt(t.prompt)}
               className="w-full truncate rounded-lg px-2.5 py-1.5 text-left text-xs text-slate-400 hover:bg-slate-800/50 hover:text-slate-200 transition cursor-pointer"
             >
-              • {t.label}
+              {t.label}
             </button>
           ))}
         </div>

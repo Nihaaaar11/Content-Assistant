@@ -24,7 +24,7 @@ export function LiquidGlassCard({
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-2xl border border-slate-800/80 bg-[#121622]/80 backdrop-blur-md transition-all duration-300 hover:border-blue-500/50 hover:shadow-xl ${padClass} ${className}`}
+      className={`group relative overflow-hidden rounded-2xl border border-purple-900/40 bg-[#130826]/80 backdrop-blur-md transition-all duration-300 hover:border-[#A855F7]/60 hover:shadow-[0_8px_30px_rgba(168,85,247,0.2)] ${padClass} ${className}`}
       {...props}
     >
       <div className="relative z-10 flex flex-col h-full">{children}</div>

@@ -1,12 +1,32 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #A855F7;
+  --color-primary-hover: #9333EA;
+  --color-primary-light: #C084FC;
+}
+
+:root {
+  --theme-accent: #A855F7;
+  --theme-accent-glow: rgba(168, 85, 247, 0.3);
+}
+
+/* selection highlight */
+::selection {
+  background-color: rgba(168, 85, 247, 0.4);
+  color: #ffffff;
+}
+
 /* slim scrollbars for the chat window */
 .scroll-slim::-webkit-scrollbar {
   width: 6px;
 }
 .scroll-slim::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #3b0764;
   border-radius: 3px;
+}
+.scroll-slim::-webkit-scrollbar-thumb:hover {
+  background: #A855F7;
 }
 .scroll-slim::-webkit-scrollbar-track {
   background: transparent;

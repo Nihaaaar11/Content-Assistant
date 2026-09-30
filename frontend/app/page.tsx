@@ -8,6 +8,7 @@ import Sidebar from "@/components/Sidebar";
 import ConnectPanel from "@/components/ConnectPanel";
 import AnalyticsView from "@/components/AnalyticsView";
 import SparkView from "@/components/SparkView";
+import StaggeredMenu, { type StaggeredMenuItem, type StaggeredMenuSocialItem } from "@/components/StaggeredMenu";
 import { listBrands, createBrand, getHealth, streamChat } from "@/lib/api";
 import type { Brand, ChatTurn, Health } from "@/lib/types";
 
@@ -121,7 +122,7 @@ export default function Home() {
       },
       onError: (msg) => {
         setActivity(null);
-        setTurns((prev) => [...prev, { role: "assistant", content: `⚠️ ${msg}` }]);
+        setTurns((prev) => [...prev, { role: "assistant", content: msg }]);
       },
       onDone: () => setActivity(null),
     });
@@ -129,8 +130,58 @@ export default function Home() {
 
   const isStreaming = activity !== null;
 
+  const menuItems: StaggeredMenuItem[] = [
+    {
+      label: "Chat",
+      ariaLabel: "Go to chat session",
+      onClick: () => setActiveTab("chat"),
+    },
+    {
+      label: "Spark",
+      ariaLabel: "Open Spark Idea Engine",
+      onClick: () => setActiveTab("spark"),
+    },
+    {
+      label: "Analytics",
+      ariaLabel: "View Growth Analytics",
+      onClick: () => setActiveTab("analytics"),
+    },
+    {
+      label: "Connections",
+      ariaLabel: "Manage Connected Platforms & Data",
+      onClick: () => setShowConnect(true),
+    },
+    {
+      label: "New Chat",
+      ariaLabel: "Start a new chat session",
+      onClick: handleNewChat,
+    },
+  ];
+
+  const socialItems: StaggeredMenuSocialItem[] = [
+    { label: "YouTube", link: "https://youtube.com" },
+    { label: "Instagram", link: "https://instagram.com" },
+    { label: "X", link: "https://x.com" },
+    { label: "LinkedIn", link: "https://linkedin.com" },
+    { label: "GitHub", link: "https://github.com" },
+  ];
+
   return (
-    <main className="flex h-screen overflow-hidden bg-[#090b11] text-slate-100 font-sans">
+    <main className="relative flex h-screen overflow-hidden bg-[#090514] text-white font-sans">
+      <StaggeredMenu
+        position="right"
+        isFixed={true}
+        items={menuItems}
+        socialItems={socialItems}
+        displaySocials={true}
+        displayItemNumbering={true}
+        menuButtonColor="#ffffff"
+        openMenuButtonColor="#A855F7"
+        changeMenuColorOnOpen={true}
+        colors={["#2e1065", "#581c87", "#7e22ce", "#A855F7"]}
+        accentColor="#A855F7"
+      />
+
       <Sidebar
         brands={brands}
         activeBrand={activeBrand}
@@ -156,47 +207,44 @@ export default function Home() {
         onQuickPrompt={sendMessage}
       />
 
-      <section className="flex flex-1 flex-col overflow-hidden bg-[#090b11]">
+      <section className="flex flex-1 flex-col overflow-hidden bg-[#090514]">
         {/* Gemini ContentMind Header Bar */}
-        <header className="flex h-14 items-center justify-between border-b border-slate-800/40 bg-[#090b11] px-6">
+        <header className="flex h-14 items-center justify-between border-b border-purple-950/60 bg-[#090514] px-6">
           <div className="flex items-center gap-3">
             {sidebarCollapsed && (
               <button
                 onClick={() => setSidebarCollapsed(false)}
                 title="Expand sidebar"
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition cursor-pointer"
+                className="rounded-lg px-2.5 py-1 text-purple-300/70 hover:bg-purple-950 hover:text-white transition cursor-pointer text-xs font-medium"
               >
-                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                Menu
               </button>
             )}
 
             <div className="flex items-center gap-2">
               <span className="text-base font-semibold text-white">ContentMind</span>
               {activeBrand && (
-                <span className="rounded-full bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 text-xs font-medium text-blue-300">
+                <span className="rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 px-2.5 py-0.5 text-xs font-medium text-purple-300">
                   {activeBrand.name}
                 </span>
               )}
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mr-28">
             <button
               onClick={() => setShowConnect(true)}
-              className="flex items-center gap-1.5 rounded-full bg-[#181d2a] hover:bg-[#22283a] border border-slate-800 px-3.5 py-1.5 text-xs font-medium text-slate-200 transition shadow-xs cursor-pointer"
+              className="flex items-center gap-1.5 rounded-full bg-[#140a24] hover:bg-purple-950 border border-purple-900/40 px-3.5 py-1.5 text-xs font-medium text-purple-200 transition shadow-xs cursor-pointer"
             >
-              <span>📥</span>
               <span>Connections &amp; data</span>
             </button>
 
             <button
               onClick={handleNewChat}
               title="New session"
-              className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white transition cursor-pointer text-sm"
+              className="rounded-lg px-2.5 py-1 text-purple-300/70 hover:bg-purple-950 hover:text-white transition cursor-pointer text-xs font-medium"
             >
-              ✏️ New Chat
+              New Chat
             </button>
           </div>
         </header>
