@@ -23,7 +23,7 @@ CTX_ANALYSIS = "performance-analysis"
 CTX_CHAT = "strategy-chat"
 
 # Retain is async on the server; don't block chat/collection paths.
-RETAIN_KWARGS = {"async_processing": True}
+RETAIN_KWARGS = {"retain_async": True}
 
 
 def bank_id_for(brand_id: int) -> str:
@@ -61,12 +61,21 @@ class HindsightMemory:
                 bank_id=bid,
                 name=f"{brand_name} — growth memory",
                 mission=mission,
-                directives=[
-                    "Cite the specific post, date, or metric that supports every claim about performance.",
-                    "Separate observations (data-backed) from hypotheses (unverified reasoning).",
-                    "Never invent metrics; if data is missing, say what is missing.",
-                ],
             )
+            directives = [
+                "Cite the specific post, date, or metric that supports every claim about performance.",
+                "Separate observations (data-backed) from hypotheses (unverified reasoning).",
+                "Never invent metrics; if data is missing, say what is missing.",
+            ]
+            for i, d in enumerate(directives, 1):
+                try:
+                    self._client.create_directive(
+                        bank_id=bid,
+                        name=f"directive_{i}",
+                        content=d,
+                    )
+                except Exception as exc:
+                    logger.debug("create_directive(%s, %s) -> %s", bid, i, exc)
         except Exception as exc:  # bank may already exist
             logger.debug("create_bank(%s) -> %s", bid, exc)
         return bid
@@ -95,19 +104,15 @@ class HindsightMemory:
         try:
             self._client.retain(
                 bank_id=bank_id_for(brand_id),
-                items=[
-                    {
-                        "content": "\n".join(lines),
-                        "context": CTX_POST,
-                        "timestamp": published_at,
-                        "document_id": f"{platform}-{post_id}",
-                        "metadata": {
-                            "platform": platform,
-                            "post_id": post_id,
-                            **({"url": url} if url else {}),
-                        },
-                    }
-                ],
+                content="\n".join(lines),
+                context=CTX_POST,
+                timestamp=published_at,
+                document_id=f"{platform}-{post_id}",
+                metadata={
+                    "platform": platform,
+                    "post_id": post_id,
+                    **({"url": url} if url else {}),
+                },
                 **RETAIN_KWARGS,
             )
         except Exception as exc:
@@ -120,15 +125,11 @@ class HindsightMemory:
         try:
             self._client.retain(
                 bank_id=bank_id_for(brand_id),
-                items=[
-                    {
-                        "content": report,
-                        "context": CTX_ANALYSIS,
-                        "timestamp": analysis_date,
-                        "document_id": f"analysis-{kind}-{analysis_date[:10]}",
-                        "metadata": {"kind": kind, "date": analysis_date[:10]},
-                    }
-                ],
+                content=report,
+                context=CTX_ANALYSIS,
+                timestamp=analysis_date,
+                document_id=f"analysis-{kind}-{analysis_date[:10]}",
+                metadata={"kind": kind, "date": analysis_date[:10]},
                 **RETAIN_KWARGS,
             )
         except Exception as exc:
@@ -145,15 +146,11 @@ class HindsightMemory:
         try:
             self._client.retain(
                 bank_id=bank_id_for(brand_id),
-                items=[
-                    {
-                        "content": content,
-                        "context": CTX_CHAT,
-                        "timestamp": turn_date,
-                        "document_id": f"chat-{turn_date}",
-                        "metadata": {"kind": "strategy-chat"},
-                    }
-                ],
+                content=content,
+                context=CTX_CHAT,
+                timestamp=turn_date,
+                document_id=f"chat-{turn_date}",
+                metadata={"kind": "strategy-chat"},
                 **RETAIN_KWARGS,
             )
         except Exception as exc:
@@ -194,15 +191,11 @@ class HindsightMemory:
         try:
             await self._client.aretain(
                 bank_id=bank_id_for(brand_id),
-                items=[
-                    {
-                        "content": content,
-                        "context": CTX_CHAT,
-                        "timestamp": turn_date,
-                        "document_id": f"chat-{turn_date}",
-                        "metadata": {"kind": "strategy-chat"},
-                    }
-                ],
+                content=content,
+                context=CTX_CHAT,
+                timestamp=turn_date,
+                document_id=f"chat-{turn_date}",
+                metadata={"kind": "strategy-chat"},
                 **RETAIN_KWARGS,
             )
         except Exception as exc:

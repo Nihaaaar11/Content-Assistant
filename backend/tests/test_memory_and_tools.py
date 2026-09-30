@@ -90,3 +90,52 @@ def test_repo_upsert_post_and_stats(db_session):
 
     posts = repo.recent_posts_with_metrics(db_session, brand.id)
     assert posts[0]["metrics"]["views"] == 200
+
+
+def test_hindsight_memory_wrapper():
+    from unittest.mock import MagicMock, AsyncMock
+    from backend.memory.hindsight_db import HindsightMemory, CTX_POST, CTX_ANALYSIS, CTX_CHAT
+
+    mem = HindsightMemory()
+    mock_client = MagicMock()
+    mock_client.aretain = AsyncMock()
+    mem._client = mock_client
+
+    # test ensure_bank
+    bid = mem.ensure_bank(1, "TestBrand")
+    assert bid == "brand_1"
+    mock_client.create_bank.assert_called_once()
+    assert mock_client.create_bank.call_args.kwargs["bank_id"] == "brand_1"
+    assert mock_client.create_directive.call_count == 3
+
+    # test retain_post
+    mem.retain_post(1, "p1", "youtube", "cap", "2024-01-01T00:00:00Z", {"likes": 10})
+    mock_client.retain.assert_called_once()
+    kwargs = mock_client.retain.call_args.kwargs
+    assert kwargs["bank_id"] == "brand_1"
+    assert kwargs["context"] == CTX_POST
+    assert kwargs["retain_async"] is True
+
+    # test retain_analysis
+    mock_client.retain.reset_mock()
+    mem.retain_analysis(1, "report text", "2024-01-01T00:00:00Z", kind="cycle")
+    mock_client.retain.assert_called_once()
+    kwargs = mock_client.retain.call_args.kwargs
+    assert kwargs["context"] == CTX_ANALYSIS
+    assert kwargs["retain_async"] is True
+
+    # test retain_chat_turn
+    mock_client.retain.reset_mock()
+    mem.retain_chat_turn(1, "hello", "hi", "2024-01-01T00:00:00Z")
+    mock_client.retain.assert_called_once()
+    kwargs = mock_client.retain.call_args.kwargs
+    assert kwargs["context"] == CTX_CHAT
+    assert kwargs["retain_async"] is True
+
+    # test aretain_chat_turn
+    asyncio.run(mem.aretain_chat_turn(1, "hello", "hi", "2024-01-01T00:00:00Z"))
+    mock_client.aretain.assert_called_once()
+    kwargs = mock_client.aretain.call_args.kwargs
+    assert kwargs["context"] == CTX_CHAT
+    assert kwargs["retain_async"] is True
+
